@@ -1,1 +1,0 @@
-* Removed duplicate entries when scrolling the mediathek list

@@ -1,1 +1,0 @@
-* Duplikate beim Scrollen in der Mediathek-Liste entfernt

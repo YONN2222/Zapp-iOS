@@ -1,3 +1,0 @@
-* Layout der Senderliste auf Tablets glatt gezogen
-* Hängende Status-Bar im Vollbild-Modus auf manchen Geräten behoben
-* Lautstärke- und Helligkeitsregler verbessert

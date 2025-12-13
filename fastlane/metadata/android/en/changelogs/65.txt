@@ -1,4 +1,0 @@
-* Support for dynamic device colors
-* Fixed crash in mediathek list
-* Fixed dsiplay error in mediathek list on Android TV
-* Switching between live streams is possible again!

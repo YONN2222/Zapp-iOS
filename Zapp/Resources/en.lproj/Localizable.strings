@@ -1,0 +1,220 @@
+/* 
+  Localizable.strings (English)
+  Zapp iOS
+*/
+
+// Tab Titles
+"tab_live" = "Live";
+"tab_mediathek" = "Media Library";
+"tab_personal" = "My Shows";
+
+// Channel List
+"channel_list_title" = "Live";
+"channel_refresh" = "Refresh";
+"channel_no_connection_title" = "No Connection";
+"channel_no_connection_message" = "Live TV requires an internet connection.";
+"channel_menu_open_downloads" = "Open Downloads";
+"channel_menu_reorder" = "Reorder Channels";
+"channel_overflow_accessibility" = "More actions";
+"channel_order_footer" = "Drag the handles on the right to reorder channels. You can customize every name.";
+"channel_order_name_placeholder" = "Channel name";
+"channel_order_default_hint" = "Default: %@";
+"channel_order_title" = "Arrange Channels";
+"channel_show_details_accessibility" = "Show program details";
+"channel_loading_now_playing" = "Loading live data…";
+"channel_timing_started" = "Started";
+"channel_timing_ends" = "Ends at";
+"channel_timing_remaining" = "Remaining";
+"channel_timing_unavailable" = "No runtime information available";
+"channel_remaining_ending_soon" = "Ending soon";
+"channel_remaining_one_minute" = "1 minute left";
+"channel_remaining_minutes" = "%d minutes left";
+"channel_preview_label" = "Live Preview";
+
+// Mediathek
+"mediathek_search_placeholder" = "Search media library…";
+"mediathek_search_button" = "Search";
+"mediathek_no_results_title" = "No Results";
+"mediathek_no_results_message" = "Try different search terms";
+"mediathek_no_results_adjust" = "No matches. Adjust your filters or try another keyword.";
+"mediathek_prompt_search_title" = "Search the library";
+"mediathek_prompt_search_message" = "Enter a title, topic, or channel to get started.";
+"mediathek_initial_loading" = "Loading the media library…";
+"mediathek_offline_title" = "Offline Mode";
+"mediathek_offline_message" = "Reconnect to search the full catalog. You can still access downloaded shows below.";
+"mediathek_offline_results_note" = "Only downloaded shows are available while you're offline.";
+"mediathek_filter_open_accessibility" = "Open filters";
+"mediathek_error_invalid_request" = "Invalid search request.";
+"mediathek_error_slow" = "The media library is responding slowly. Tap \"%@\" to try again.";
+"mediathek_loading" = "Searching...";
+"mediathek_filter_title" = "Filter";
+"mediathek_filter_channels" = "Channels";
+"mediathek_filter_duration" = "Duration (minutes)";
+"mediathek_filter_min" = "Min:";
+"mediathek_filter_max" = "Max:";
+"mediathek_filter_reset" = "Reset";
+"mediathek_filter_apply" = "Apply";
+"mediathek_filter_min_chip" = "Min. %d min";
+"mediathek_filter_max_chip" = "Max. %d min";
+"mediathek_active_filters_title" = "Active Filters";
+"mediathek_search_prompt_online" = "Search the full catalog";
+"mediathek_search_prompt_offline" = "Search downloaded shows";
+"mediathek_suggestion_section_single" = "Search";
+"mediathek_suggestion_search_for" = "Search for \"%@\"";
+"mediathek_suggestion_section_last" = "Last search";
+"mediathek_suggestion_section_history" = "Recent searches";
+"mediathek_suggestion_section_matches" = "Matching history";
+"mediathek_suggestion_history_empty" = "Your previous searches appear here.";
+"mediathek_history_delete" = "Delete";
+"mediathek_history_delete_accessibility" = "Delete from search history";
+"mediathek_query_results" = "%d results";
+"mediathek_query_updated" = "Updated %@";
+
+// Show Details
+"show_play" = "Play";
+"show_bookmark" = "Bookmark";
+"show_remove_bookmark" = "Bookmark";
+"show_download" = "Download";
+"show_website" = "Open Website";
+"show_quality" = "Quality: %@";
+"show_details" = "Details";
+
+// Personal
+"personal_downloads" = "Downloads";
+"personal_continue_watching" = "Continue";
+"personal_bookmarks" = "Bookmarks";
+"personal_no_downloads_title" = "No Downloads";
+"personal_no_downloads_message" = "Downloaded shows appear here";
+"personal_no_continue_title" = "No Shows in Progress";
+"personal_no_continue_message" = "Shows you've started appear here";
+"personal_no_bookmarks_title" = "No Bookmarks";
+"personal_no_bookmarks_message" = "Mark shows to watch them later";
+"personal_continue_offline_title" = "Internet Connection Required";
+"personal_continue_offline_message" = "Continue Watching syncs your shows with the media library. Connect to the internet to keep watching.";
+"personal_continue_remove" = "Remove from Continue Watching";
+
+// Download Status
+"download_queued" = "Waiting for download…";
+"download_downloading" = "Downloading… %d%%";
+"download_completed" = "Download completed";
+"download_failed" = "Download failed";
+"download_delete" = "Delete download";
+"download_not_ready_title" = "Download Still Running";
+"download_not_ready_message" = "Please wait until the download finishes.";
+"download_waiting_progress" = "Waiting to start - %d%%";
+"download_downloading_unmeasured" = "Downloading...";
+"download_size_of_total" = "%1$@ of %2$@";
+"download_size_downloaded_only" = "%@ downloaded";
+"download_size_total" = "Size: %@";
+"download_error_title" = "Download Unavailable";
+"download_error_wifi_only" = "Downloads are currently restricted to Wi-Fi. Connect to Wi-Fi or adjust the setting in the app preferences.";
+
+// Player
+"player_loading_stream" = "Preparing stream…";
+"player_loading" = "Loading...";
+"player_sleep_timer" = "Sleep Timer";
+"player_sleep_timer_running" = "Timer running";
+"player_sleep_timer_cancel" = "Cancel timer";
+"player_sleep_timer_start" = "Start timer";
+"player_live_badge" = "LIVE";
+"player_live_subtitle" = "Livestream";
+"player_info_channel" = "Channel";
+"player_info_color" = "Color";
+"player_quality_low" = "Low";
+"player_quality_medium" = "Medium";
+"player_quality_high" = "High";
+"player_quality_button_label" = "Quality: %@";
+"player_quality_button_accessibility" = "Change playback quality";
+"player_quality_button_hint" = "Opens a menu to choose a different quality";
+"player_quality_picker_title" = "Select quality";
+"player_quality_picker_cancel" = "Cancel";
+"player_pip_button_start" = "Start Picture-in-Picture";
+"player_pip_button_stop" = "Stop Picture-in-Picture";
+"player_error_title" = "Playback Not Available";
+"player_error_live_unavailable" = "This live stream is currently unavailable.";
+"player_error_vod_unavailable" = "This video is currently unavailable.";
+"player_error_retry_button" = "Try Again";
+"player_error_close_button" = "Close Player";
+
+// Settings
+"settings_title" = "Settings";
+"settings_appearance" = "Appearance";
+"settings_appearance_system" = "System";
+"settings_appearance_light" = "Light";
+"settings_appearance_dark" = "Dark";
+"settings_streaming_quality" = "Streaming Quality";
+"settings_quality_wifi" = "Wi-Fi";
+"settings_quality_cellular" = "Cellular";
+"settings_playback" = "Playback";
+"settings_pip_on_back" = "Picture-in-Picture on Back";
+"settings_detail_landscape" = "Detail Landscape";
+"settings_downloads" = "Downloads";
+"settings_download_wifi_only" = "Wi-Fi Only";
+"settings_storage_section" = "Downloads & Storage";
+"settings_download_wifi_only_title" = "Downloads on Wi-Fi Only";
+"settings_download_wifi_only_description" = "Protects your data plan by downloading videos only when Wi-Fi is available.";
+"settings_app_design_title" = "App Appearance";
+"settings_app_design_description" = "Switch between light, dark, or the system-wide appearance.";
+"settings_stream_quality_wifi_title" = "Wi-Fi Streaming";
+"settings_stream_quality_wifi_description" = "Choose the quality used when a Wi-Fi connection is active.";
+"settings_stream_quality_cellular_title" = "Cellular Streaming";
+"settings_stream_quality_cellular_description" = "Pick a lower tier if you need to conserve mobile data.";
+"settings_delete_downloads_title" = "Delete All Downloads";
+"settings_delete_downloads_description_empty" = "Removes saved shows from this device.";
+"settings_delete_downloads_description_single" = "Deletes your only saved download including the video file.";
+"settings_delete_downloads_description_plural" = "Deletes %d saved downloads including their video files.";
+"settings_delete_downloads_message_empty" = "There are no saved shows right now.";
+"settings_delete_downloads_message_single" = "You're about to remove your saved show from this device. You'll need to download it again afterward.";
+"settings_delete_downloads_message_plural" = "You're about to remove %d saved shows from this device. You'll need to download them again afterward.";
+"settings_delete_downloads_confirm" = "Delete downloads";
+"settings_clear_cache_title" = "Remove Cached Images";
+"settings_clear_cache_description" = "Empties the thumbnail cache to free up space. Images will be reloaded when needed.";
+"settings_clear_cache_confirmation" = "This removes all preloaded preview images. They will be fetched again automatically next time.";
+"settings_clear_cache_confirm" = "Clear cache";
+"settings_history_reset_title" = "Reset Search History";
+"settings_history_reset_description" = "Removes stored keywords from the media library search.";
+"settings_history_reset_confirmation" = "All previous search terms in the media library will be deleted and cannot be restored.";
+"settings_history_reset_confirm" = "Clear history";
+"settings_community_section" = "Community & Source";
+"settings_community_ios_title" = "Open iOS Repository";
+"settings_community_ios_description" = "Report bugs, follow releases, or contribute on GitHub.";
+"settings_community_android_title" = "Original Android Project";
+"settings_community_android_description" = "The iOS project is based on this open-source app.";
+"settings_version" = "Version";
+"settings_build" = "Build";
+"settings_live_tv_section" = "Live TV";
+"settings_reset_channels_title" = "Reset Channel Order";
+"settings_reset_channels_description" = "Restores the default ordering and original names.";
+"settings_reset_channels_confirmation" = "Custom channel names and their order will revert to the factory defaults.";
+"settings_reset_channels_confirm" = "Reset";
+"settings_about" = "About Zapp";
+"settings_github" = "GitHub Repository";
+"settings_website" = "Website";
+"settings_done" = "Done";
+"settings_mediathek_section" = "Media Library";
+"settings_mediathek_api_title" = "Mediathek API";
+"settings_mediathek_api_description" = "The app uses the MediathekView API.";
+"settings_mediathek_api_placeholder" = "https://mediathekview.de";
+"settings_cache_cleared_title" = "Cache Cleared";
+"settings_cache_cleared_message" = "Stored thumbnails have been removed.";
+"settings_downloads_cleared_title" = "Downloads Deleted";
+"settings_downloads_cleared_message" = "All saved shows were removed from this device.";
+"settings_history_cleared_title" = "Search History Removed";
+"settings_history_cleared_message" = "Your recent search queries were deleted.";
+
+// Common
+"app_name" = "Zapp";
+"close" = "Close";
+"cancel" = "Cancel";
+"ok" = "OK";
+"error" = "Error";
+"error_unknown" = "Unknown error";
+"loading" = "Loading...";
+"retry" = "Retry";
+"save" = "Save";
+
+// Geo Restriction
+"geo_restriction_title" = "Limited availability outside Germany";
+"geo_restriction_message_generic" = "This app is primarily build for use within Germany. Streams may fail or stay blocked when you're abroad.";
+"geo_restriction_message_region" = "Your device is located in %@, so some live streams and Mediathek videos may not work as expected.";
+"geo_restriction_cta" = "Continue anyway";

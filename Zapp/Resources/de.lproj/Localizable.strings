@@ -1,0 +1,220 @@
+/* 
+  Localizable.strings (German)
+  Zapp iOS
+*/
+
+// Tab Titles
+"tab_live" = "Live";
+"tab_mediathek" = "Mediathek";
+"tab_personal" = "Meine Sendungen";
+
+// Channel List
+"channel_list_title" = "Live";
+"channel_refresh" = "Aktualisieren";
+"channel_no_connection_title" = "Keine Verbindung";
+"channel_no_connection_message" = "Für Live-TV brauchst du eine Internetverbindung.";
+"channel_menu_open_downloads" = "Downloads öffnen";
+"channel_menu_reorder" = "Sender neu anordnen";
+"channel_overflow_accessibility" = "Weitere Aktionen";
+"channel_order_footer" = "Ziehe die Griffe rechts, um Sender zu verschieben. Du kannst jeden Namen anpassen.";
+"channel_order_name_placeholder" = "Sendername";
+"channel_order_default_hint" = "Standard: %@";
+"channel_order_title" = "Sender anordnen";
+"channel_show_details_accessibility" = "Sendungsdetails anzeigen";
+"channel_loading_now_playing" = "Live-Daten werden geladen…";
+"channel_timing_started" = "Gestartet";
+"channel_timing_ends" = "Endet um";
+"channel_timing_remaining" = "Verbleibend";
+"channel_timing_unavailable" = "Keine Laufzeitinformationen verfügbar";
+"channel_remaining_ending_soon" = "Endet gleich";
+"channel_remaining_one_minute" = "Noch 1 Minute";
+"channel_remaining_minutes" = "Noch %d Minuten";
+"channel_preview_label" = "Live-Vorschau";
+
+// Mediathek
+"mediathek_search_placeholder" = "Mediathek durchsuchen…";
+"mediathek_search_button" = "Suchen";
+"mediathek_no_results_title" = "Keine Ergebnisse";
+"mediathek_no_results_message" = "Versuche andere Suchbegriffe";
+"mediathek_no_results_adjust" = "Keine Treffer. Passe die Filter an oder probiere einen anderen Suchbegriff.";
+"mediathek_prompt_search_title" = "Mediathek durchsuchen";
+"mediathek_prompt_search_message" = "Gib einen Titel, ein Thema oder einen Sender ein, um zu starten.";
+"mediathek_initial_loading" = "Mediathek wird geladen…";
+"mediathek_offline_title" = "Offline-Modus";
+"mediathek_offline_message" = "Stelle eine Verbindung her, um das komplette Angebot zu durchsuchen. Heruntergeladene Sendungen findest du weiterhin unten.";
+"mediathek_offline_results_note" = "Im Offline-Modus stehen nur heruntergeladene Sendungen zur Verfügung.";
+"mediathek_filter_open_accessibility" = "Filter öffnen";
+"mediathek_error_invalid_request" = "Ungültige Anfrage.";
+"mediathek_error_slow" = "Die Mediathek reagiert gerade langsam. Tippe auf \"%@\", um es erneut zu versuchen.";
+"mediathek_loading" = "Suche läuft...";
+"mediathek_filter_title" = "Filter";
+"mediathek_filter_channels" = "Sender";
+"mediathek_filter_duration" = "Dauer (Minuten)";
+"mediathek_filter_min" = "Min:";
+"mediathek_filter_max" = "Max:";
+"mediathek_filter_reset" = "Zurücksetzen";
+"mediathek_filter_apply" = "Anwenden";
+"mediathek_filter_min_chip" = "Mind. %d Min";
+"mediathek_filter_max_chip" = "Max. %d Min";
+"mediathek_active_filters_title" = "Aktive Filter";
+"mediathek_search_prompt_online" = "Gesamte Mediathek durchsuchen";
+"mediathek_search_prompt_offline" = "Downloads durchsuchen";
+"mediathek_suggestion_section_single" = "Suche";
+"mediathek_suggestion_search_for" = "Nach \"%@\" suchen";
+"mediathek_suggestion_section_last" = "Letzte Suche";
+"mediathek_suggestion_section_history" = "Verlauf";
+"mediathek_suggestion_section_matches" = "Passende Einträge";
+"mediathek_suggestion_history_empty" = "Frühere Suchanfragen erscheinen hier.";
+"mediathek_history_delete" = "Löschen";
+"mediathek_history_delete_accessibility" = "Aus Suchverlauf löschen";
+"mediathek_query_results" = "%d Ergebnisse";
+"mediathek_query_updated" = "Aktualisiert %@";
+
+// Show Details
+"show_play" = "Abspielen";
+"show_bookmark" = "Lesezeichen";
+"show_remove_bookmark" = "Lesezeichen";
+"show_download" = "Download";
+"show_website" = "Website öffnen";
+"show_quality" = "Qualität: %@";
+"show_details" = "Details";
+
+// Personal
+"personal_downloads" = "Downloads";
+"personal_continue_watching" = "Weiterschauen";
+"personal_bookmarks" = "Lesezeichen";
+"personal_no_downloads_title" = "Keine Downloads";
+"personal_no_downloads_message" = "Heruntergeladene Sendungen erscheinen hier";
+"personal_no_continue_title" = "Keine begonnenen Sendungen";
+"personal_no_continue_message" = "Sendungen, die du angefangen hast, erscheinen hier";
+"personal_no_bookmarks_title" = "Keine Lesezeichen";
+"personal_no_bookmarks_message" = "Markiere Sendungen, um sie später anzusehen";
+"personal_continue_offline_title" = "Internetverbindung benötigt";
+"personal_continue_offline_message" = "Weiterschauen synchronisiert deine Sendungen mit der Mediathek. Verbinde dich mit dem Internet, um weiterzuschauen.";
+"personal_continue_remove" = "Aus Weiterschauen entfernen";
+
+// Download Status
+"download_queued" = "Warte auf Download…";
+"download_downloading" = "Download läuft… %d%%";
+"download_completed" = "Download abgeschlossen";
+"download_failed" = "Download fehlgeschlagen";
+"download_delete" = "Download löschen";
+"download_not_ready_title" = "Download läuft noch";
+"download_not_ready_message" = "Bitte warte, bis der Download abgeschlossen ist.";
+"download_waiting_progress" = "Wartet auf Start - %d%%";
+"download_downloading_unmeasured" = "Wird heruntergeladen...";
+"download_size_of_total" = "%1$@ von %2$@";
+"download_size_downloaded_only" = "%@ geladen";
+"download_size_total" = "Größe: %@";
+"download_error_title" = "Download nicht möglich";
+"download_error_wifi_only" = "Downloads sind derzeit auf WLAN beschränkt. Verbinde dich mit einem WLAN oder passe die Einstellung in den App-Einstellungen an.";
+
+// Player
+"player_loading_stream" = "Stream wird vorbereitet…";
+"player_loading" = "Lädt...";
+"player_sleep_timer" = "Sleep Timer";
+"player_sleep_timer_running" = "Timer läuft";
+"player_sleep_timer_cancel" = "Timer abbrechen";
+"player_sleep_timer_start" = "Timer starten";
+"player_live_badge" = "LIVE";
+"player_live_subtitle" = "Livestream";
+"player_info_channel" = "Kanal";
+"player_info_color" = "Farbe";
+"player_quality_low" = "Niedrig";
+"player_quality_medium" = "Mittel";
+"player_quality_high" = "Hoch";
+"player_quality_button_label" = "Qualität: %@";
+"player_quality_button_accessibility" = "Wiedergabequalität ändern";
+"player_quality_button_hint" = "Öffnet ein Menü zur Auswahl einer anderen Qualität";
+"player_quality_picker_title" = "Qualität wählen";
+"player_quality_picker_cancel" = "Abbrechen";
+"player_pip_button_start" = "Bild-in-Bild starten";
+"player_pip_button_stop" = "Bild-in-Bild beenden";
+"player_error_title" = "Wiedergabe nicht möglich";
+"player_error_live_unavailable" = "Dieser Livestream ist gerade nicht erreichbar.";
+"player_error_vod_unavailable" = "Dieser Inhalt ist gerade nicht erreichbar.";
+"player_error_retry_button" = "Erneut versuchen";
+"player_error_close_button" = "Player schließen";
+
+// Settings
+"settings_title" = "Einstellungen";
+"settings_appearance" = "Aussehen";
+"settings_appearance_system" = "System";
+"settings_appearance_light" = "Hell";
+"settings_appearance_dark" = "Dunkel";
+"settings_streaming_quality" = "Streaming-Qualität";
+"settings_quality_wifi" = "WLAN";
+"settings_quality_cellular" = "Mobilfunk";
+"settings_playback" = "Wiedergabe";
+"settings_pip_on_back" = "Bild-in-Bild beim Zurück";
+"settings_detail_landscape" = "Detail-Querformat";
+"settings_downloads" = "Downloads";
+"settings_download_wifi_only" = "Nur über WLAN";
+"settings_storage_section" = "Downloads & Speicher";
+"settings_download_wifi_only_title" = "Downloads nur über WLAN";
+"settings_download_wifi_only_description" = "Schont dein Datenvolumen, indem Videos ausschließlich bei aktiver WLAN-Verbindung geladen werden.";
+"settings_app_design_title" = "App-Design";
+"settings_app_design_description" = "Wechsle zwischen hellem, dunklem oder dem systemweiten Erscheinungsbild.";
+"settings_stream_quality_wifi_title" = "WLAN-Streaming";
+"settings_stream_quality_wifi_description" = "Bestimme, in welcher Qualität Videos bei aktiver WLAN-Verbindung geladen werden.";
+"settings_stream_quality_cellular_title" = "Mobilfunk-Streaming";
+"settings_stream_quality_cellular_description" = "Setze eine niedrigere Stufe, wenn du Datenvolumen sparen möchtest.";
+"settings_delete_downloads_title" = "Alle Downloads löschen";
+"settings_delete_downloads_description_empty" = "Entfernt gespeicherte Sendungen von diesem Gerät.";
+"settings_delete_downloads_description_single" = "Löscht deinen einzigen gespeicherten Download inklusive Videodatei.";
+"settings_delete_downloads_description_plural" = "Löscht %d gespeicherte Downloads inklusive Videodateien.";
+"settings_delete_downloads_message_empty" = "Es gibt aktuell keine gespeicherten Sendungen.";
+"settings_delete_downloads_message_single" = "Du bist dabei, deine gespeicherte Sendung vom Gerät zu entfernen. Das Video muss anschließend erneut heruntergeladen werden.";
+"settings_delete_downloads_message_plural" = "Du bist dabei, %d gespeicherte Sendungen vom Gerät zu entfernen. Die Videos müssen anschließend erneut heruntergeladen werden.";
+"settings_delete_downloads_confirm" = "Downloads löschen";
+"settings_clear_cache_title" = "Zwischengespeicherte Bilder entfernen";
+"settings_clear_cache_description" = "Leert den Thumbnail-Cache und schafft Speicherplatz. Die Bilder werden bei Bedarf erneut geladen.";
+"settings_clear_cache_confirmation" = "Dadurch werden sämtliche geladenen Vorschaubilder entfernt. Beim nächsten Öffnen werden sie automatisch neu geladen.";
+"settings_clear_cache_confirm" = "Cache jetzt leeren";
+"settings_history_reset_title" = "Suchverlauf zurücksetzen";
+"settings_history_reset_description" = "Entfernt gespeicherte Schlagwörter aus der Mediathek-Suche.";
+"settings_history_reset_confirmation" = "Alle bisherigen Suchbegriffe in der Mediathek werden gelöscht und können nicht wiederhergestellt werden.";
+"settings_history_reset_confirm" = "Verlauf löschen";
+"settings_community_section" = "Community & Quellcode";
+"settings_community_ios_title" = "iOS-Repository öffnen";
+"settings_community_ios_description" = "Melde Fehler, verfolge Releases oder hilf beim Entwickeln auf GitHub.";
+"settings_community_android_title" = "Originales Android-Projekt";
+"settings_community_android_description" = "Das iOS-Projekt basiert auf dieser Open-Source-App.";
+"settings_version" = "Version";
+"settings_build" = "Build";
+"settings_live_tv_section" = "Live-TV";
+"settings_reset_channels_title" = "Senderreihenfolge zurücksetzen";
+"settings_reset_channels_description" = "Stellt Standardreihenfolge und ursprüngliche Namen wieder her.";
+"settings_reset_channels_confirmation" = "Eigene Sendernamen und die Reihenfolge werden auf den Auslieferungszustand zurückgesetzt.";
+"settings_reset_channels_confirm" = "Zurücksetzen";
+"settings_about" = "Über Zapp";
+"settings_github" = "GitHub Repository";
+"settings_website" = "Website";
+"settings_done" = "Fertig";
+"settings_mediathek_section" = "Mediathek";
+"settings_mediathek_api_title" = "Mediathek API";
+"settings_mediathek_api_description" = "Die App nutzt die MediathekView API.";
+"settings_mediathek_api_placeholder" = "https://mediathekview.de";
+"settings_cache_cleared_title" = "Cache geleert";
+"settings_cache_cleared_message" = "Die gespeicherten Thumbnails wurden entfernt.";
+"settings_downloads_cleared_title" = "Downloads gelöscht";
+"settings_downloads_cleared_message" = "Alle gespeicherten Sendungen wurden vom Gerät gelöscht.";
+"settings_history_cleared_title" = "Suchverlauf entfernt";
+"settings_history_cleared_message" = "Deine letzten Suchanfragen wurden komplett zurückgesetzt.";
+
+// Common
+"app_name" = "Zapp";
+"close" = "Schließen";
+"cancel" = "Abbrechen";
+"ok" = "OK";
+"error" = "Fehler";
+"error_unknown" = "Unbekannter Fehler";
+"loading" = "Lädt...";
+"retry" = "Wiederholen";
+"save" = "Speichern";
+
+// Geo Restriction
+"geo_restriction_title" = "Eingeschränkte Nutzung außerhalb Deutschlands";
+"geo_restriction_message_generic" = "Die App ist hauptsächlich für die Nutzung innerhalb Deutschlands konzipiert. Im Ausland können Streams blockiert sein oder fehlschlagen.";
+"geo_restriction_message_region" = "Dein Gerät befindet sich in %@, daher funktionieren manche Livestreams und Mediathek-Inhalte eventuell nicht wie vorgesehen.";
+"geo_restriction_cta" = "Trotzdem fortfahren";
