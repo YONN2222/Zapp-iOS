@@ -31,11 +31,19 @@ final class VideoPlayerManager: ObservableObject {
     private var localPlaybackURL: URL?
     private var shouldResumeAfterRouteChange = false
     private var shouldResumeAfterInterruption = false
-    private var lastPlaybackSource: PlaybackSource?
     private var retryCount = 0
     private let maxRetryAttempts = 3
     private var loadTimeoutWorkItem: DispatchWorkItem?
     private var pendingRetryWorkItem: DispatchWorkItem?
+    private let liveForwardBufferDuration: TimeInterval = 8
+    private let vodForwardBufferDuration: TimeInterval = 16
+    private let liveResumeBackfill: TimeInterval = 6
+    private let vodResumeBackfill: TimeInterval = 4
+    private let maxLiveEdgeOffset: TimeInterval = 45
+    private var lastStablePlaybackTime: TimeInterval = 0
+    private var pendingResumeTime: TimeInterval?
+    private var pendingLiveEdgeOffset: TimeInterval?
+    private var lastPlaybackSource: PlaybackSource?
     
     private enum PlaybackSource {
         case live(channel: Channel)
@@ -188,7 +196,7 @@ final class VideoPlayerManager: ObservableObject {
         startTime: TimeInterval = 0,
         resetRetryState: Bool = true
     ) {
-        cleanup()
+        cleanup(preserveResumeSnapshot: true)
         activateAudioSessionIfNeeded()
 
         if lastPlaybackSource == nil {
@@ -205,10 +213,12 @@ final class VideoPlayerManager: ObservableObject {
         isBuffering = true
         isLoadingStream = true
 
+        let isLiveStream = (channel != nil && show == nil)
+
         let asset = AVURLAsset(url: url)
         let item = AVPlayerItem(asset: asset)
         disableSubtitlesIfNeeded(on: item)
-        item.preferredForwardBufferDuration = 1
+        item.preferredForwardBufferDuration = isLiveStream ? liveForwardBufferDuration : vodForwardBufferDuration
         item.canUseNetworkResourcesForLiveStreamingWhilePaused = true
         if channel != nil {
             applyLivePreferredBitRate(to: item)
@@ -220,7 +230,7 @@ final class VideoPlayerManager: ObservableObject {
 
         let player = AVPlayer(playerItem: item)
         player.appliesMediaSelectionCriteriaAutomatically = false
-        player.automaticallyWaitsToMinimizeStalling = false
+        player.automaticallyWaitsToMinimizeStalling = true
         self.player = player
 
         if startTime > 0 {
@@ -240,7 +250,8 @@ final class VideoPlayerManager: ObservableObject {
         startTime: TimeInterval = 0,
         resetRetryState: Bool = true
     ) {
-        registerLoadSource(.show(show: show, localFileURL: localFileURL), resetRetryState: resetRetryState)
+        let source = PlaybackSource.show(show: show, localFileURL: localFileURL)
+        registerLoadSource(source, resetRetryState: resetRetryState)
         currentShow = show
         localPlaybackURL = localFileURL
 
@@ -250,7 +261,7 @@ final class VideoPlayerManager: ObservableObject {
             loadVideo(
                 url: localFileURL,
                 show: show,
-                startTime: startTime,
+                startTime: resolveStartTime(for: source, requested: startTime),
                 resetRetryState: resetRetryState
             )
             return
@@ -264,7 +275,7 @@ final class VideoPlayerManager: ObservableObject {
             url: url,
             show: show,
             channel: nil,
-            startTime: startTime,
+            startTime: resolveStartTime(for: source, requested: startTime),
             resetRetryState: resetRetryState
         )
     }
@@ -276,7 +287,8 @@ final class VideoPlayerManager: ObservableObject {
         resetRetryState: Bool = true
     ) {
         guard let url = channel.streamUrl else { return }
-        registerLoadSource(.live(channel: channel), resetRetryState: resetRetryState)
+        let source = PlaybackSource.live(channel: channel)
+        registerLoadSource(source, resetRetryState: resetRetryState)
         let liveQualities = MediathekShow.Quality.allCases
         availableQualities = liveQualities
         if let qualityOverride {
@@ -288,7 +300,7 @@ final class VideoPlayerManager: ObservableObject {
             url: url,
             show: nil,
             channel: channel,
-            startTime: startTime,
+            startTime: resolveStartTime(for: source, requested: startTime),
             resetRetryState: resetRetryState
         )
     }
@@ -306,7 +318,6 @@ final class VideoPlayerManager: ObservableObject {
         }
 
         guard #available(iOS 16.0, *) else {
-            // Best effort: older systems keep current subtitle selection.
             return
         }
 
@@ -427,7 +438,7 @@ final class VideoPlayerManager: ObservableObject {
                 url: url,
                 show: show,
                 channel: channel,
-                startTime: currentTime,
+                startTime: resolveStartTime(for: source, requested: currentTime),
                 resetRetryState: true
             )
         }
@@ -455,6 +466,9 @@ final class VideoPlayerManager: ObservableObject {
         timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
             guard let self = self else { return }
             self.currentTime = time.seconds
+            if self.isActuallyPlaying, time.seconds.isFinite {
+                self.lastStablePlaybackTime = time.seconds
+            }
             if let duration = self.player?.currentItem?.duration.seconds, !duration.isNaN {
                 self.duration = duration
             }
@@ -469,6 +483,31 @@ final class VideoPlayerManager: ObservableObject {
             playbackErrorState = nil
         }
         cancelLoadTracking()
+    }
+
+    private func resolveStartTime(for source: PlaybackSource, requested: TimeInterval) -> TimeInterval {
+        var start = requested
+        var shouldApplyBackfill = true
+        if let pending = pendingResumeTime {
+            start = pending
+            pendingResumeTime = nil
+            shouldApplyBackfill = false
+        }
+
+        let backfill = backfillWindow(for: source)
+        if shouldApplyBackfill, start > 0 {
+            start = max(0, start - backfill)
+        }
+        return start
+    }
+
+    private func backfillWindow(for source: PlaybackSource) -> TimeInterval {
+        switch source {
+        case .live:
+            return liveResumeBackfill
+        case .show, .direct:
+            return vodResumeBackfill
+        }
     }
 
     private func scheduleInitialLoadTimeout() {
@@ -514,6 +553,20 @@ final class VideoPlayerManager: ObservableObject {
         if seekableRange != newRange {
             seekableRange = newRange
         }
+        applyPendingLiveEdgeOffsetIfNeeded()
+    }
+
+    private func applyPendingLiveEdgeOffsetIfNeeded() {
+        guard let source = lastPlaybackSource,
+              case .live = source,
+              let offset = pendingLiveEdgeOffset,
+              let range = seekableRange else { return }
+
+        pendingLiveEdgeOffset = nil
+        let target = max(range.lowerBound, range.upperBound - offset)
+        guard target.isFinite else { return }
+        let cmTime = CMTime(seconds: target, preferredTimescale: 600)
+        player?.seek(to: cmTime)
     }
 
     private func markStreamReady() {
@@ -524,10 +577,36 @@ final class VideoPlayerManager: ObservableObject {
         }
     }
 
+    private func captureResumeSnapshot() {
+        guard let source = lastPlaybackSource, !source.isLocal else {
+            pendingResumeTime = nil
+            pendingLiveEdgeOffset = nil
+            return
+        }
+
+        let snapshotTime = player?.currentTime().seconds ?? lastStablePlaybackTime
+        guard snapshotTime.isFinite else { return }
+
+        let backfill = backfillWindow(for: source)
+        pendingResumeTime = max(0, snapshotTime - backfill)
+
+        if case .live = source, let range = seekableRange {
+            let offset = range.upperBound - snapshotTime
+            if offset.isFinite {
+                pendingLiveEdgeOffset = max(0, min(offset, maxLiveEdgeOffset))
+            } else {
+                pendingLiveEdgeOffset = nil
+            }
+        } else {
+            pendingLiveEdgeOffset = nil
+        }
+    }
+
     private func handlePlaybackFailure(trigger: String, error: Error? = nil) {
         guard let source = lastPlaybackSource, !source.isLocal else { return }
         guard playbackErrorState == nil else { return }
 
+        captureResumeSnapshot()
         cancelLoadTracking()
         isBuffering = false
 
@@ -581,7 +660,7 @@ final class VideoPlayerManager: ObservableObject {
                 url: url,
                 show: show,
                 channel: channel,
-                startTime: currentTime,
+                startTime: resolveStartTime(for: source, requested: currentTime),
                 resetRetryState: false
             )
         }
@@ -786,7 +865,7 @@ final class VideoPlayerManager: ObservableObject {
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
     
-    func cleanup() {
+    func cleanup(preserveResumeSnapshot: Bool = false) {
         player?.pause()
         cancelLoadTracking()
         playbackErrorState = nil
@@ -814,6 +893,10 @@ final class VideoPlayerManager: ObservableObject {
         seekableRange = nil
         currentTime = 0
         duration = 0
+        if !preserveResumeSnapshot {
+            pendingResumeTime = nil
+            pendingLiveEdgeOffset = nil
+        }
         currentShow = nil
         currentChannel = nil
         localPlaybackURL = nil
