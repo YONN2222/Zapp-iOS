@@ -217,7 +217,7 @@ class CustomPlayerViewController: UIViewController, UIGestureRecognizerDelegate,
     private let playPauseButton = UIButton(type: .system)
     private let skipBackwardButton = UIButton(type: .system)
     private let skipForwardButton = UIButton(type: .system)
-    private let scrubber = UISlider()
+    private let scrubber = LargeHitSlider()
     private let currentTimeLabel = UILabel()
     private let durationLabel = UILabel()
     private let liveBadge = UIButton(type: .custom)
@@ -1336,5 +1336,15 @@ extension CustomPlayerViewController {
 struct FullScreenPlayerView_Previews: PreviewProvider {
     static var previews: some View {
         FullScreenPlayerView(channel: Channel(id: "test", name: "Test", stream_url: nil, logo_name: nil, color: nil, subtitle: nil))
+    }
+}
+
+
+private class LargeHitSlider: UISlider {
+    private let expansionInsets = UIEdgeInsets(top: -14, left: -20, bottom: -14, right: -20)
+
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let expandedBounds = bounds.inset(by: expansionInsets)
+        return expandedBounds.contains(point)
     }
 }
