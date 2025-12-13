@@ -2,11 +2,11 @@
 
 ![ZAPP](.github/images/featureGraphic.jpg)
 
-### Zapp für iOS bringt das Android-Erlebnis auf iPhone und iPad. Die erste Version ist fertig und bietet schnellen Zugriff auf viele öffentlich-rechtliche Sender und Mediatheken.
+### Zapp für iOS bringt das Android-Erlebnis auf iPhone und iPad. Dies ist ein Port der Android-App [Zapp](https://github.com/mediathekview/zapp/). Die erste Version ist fertig und bietet schnellen Zugriff auf viele öffentlich-rechtliche Sender und Mediatheken.
 
 ## Über
 
-Zapp für iOS erlaubt es dir, Sender wie ARD, ZDF und viele weitere live zu schauen. Du kannst durch Mediatheken stöbern und Inhalte direkt streamen.
+Zapp für iOS erlaubt es dir, Sender wie ARD, ZDF und viele weitere live zu schauen. Du kannst durch Mediatheken stöbern und Inhalte direkt streamen. Die App basiert auf der Android-Version, wurde aber für iOS angepasst.
 
 Die App ist fertig für den ersten Release, wird aber weiterhin gepflegt und erweitert. Feedback ist willkommen.
 
