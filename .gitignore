@@ -4,3 +4,4 @@ Zapp.xcodeproj/project.xcworkspace/xcuserdata/yann.xcuserdatad/UserInterfaceStat
 /android/
 .github/c*
 .DS_Store
+/.vscode/
