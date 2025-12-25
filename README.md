@@ -15,7 +15,7 @@ Die App ist fertig für den ersten Release, wird aber weiterhin gepflegt und erw
 <ul>
     <li>iOS Client für Zapp</li>
     <li>Live TV von über 30 öffentlich-rechtlichen Sendern</li>
-    <li>Schneller Wechsel zwischen Sendern ohne Verzögerung</li>
+    <li>Schneller Wechsel zwischen Sendern</li>
     <li>Übersichtliche Programminfos für laufende Sendungen</li>
     <li>Komfortable Suche in den Mediatheken</li>
     <li>Stabile Wiedergabe im Hintergrund</li>
