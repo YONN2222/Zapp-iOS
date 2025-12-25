@@ -76,17 +76,19 @@ struct MediathekDetailView: View {
                             }
                             .buttonStyle(.bordered)
                             
-                            Menu {
-                                ForEach(show.supportedQualities, id: \.self) { quality in
-                                    Button(action: { startDownload(quality: quality) }) {
-                                        Label(quality.localizedName, systemImage: "arrow.down.circle")
+                            if !FeatureFlags.disableDownloads {
+                                Menu {
+                                    ForEach(show.supportedQualities, id: \.self) { quality in
+                                        Button(action: { startDownload(quality: quality) }) {
+                                            Label(quality.localizedName, systemImage: "arrow.down.circle")
+                                        }
                                     }
+                                } label: {
+                                    Label("show_download", systemImage: "arrow.down.circle")
+                                        .frame(maxWidth: .infinity)
                                 }
-                            } label: {
-                                Label("show_download", systemImage: "arrow.down.circle")
-                                    .frame(maxWidth: .infinity)
+                                .buttonStyle(.bordered)
                             }
-                            .buttonStyle(.bordered)
                         }
                         
                         if let websiteUrl = show.websiteUrl {
