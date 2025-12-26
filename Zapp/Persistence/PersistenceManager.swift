@@ -8,6 +8,7 @@ extension Notification.Name {
     static let continueWatchingUpdated = Notification.Name("PersistenceManager.continueWatchingUpdated")
     static let bookmarksUpdated = Notification.Name("PersistenceManager.bookmarksUpdated")
     static let navigateToDownloadsTab = Notification.Name("MainTab.navigateToDownloads")
+    static let showOnboardingAgain = Notification.Name("AppSettings.showOnboardingAgain")
 }
 
 private let persistenceLogger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Zapp", category: "Persistence")

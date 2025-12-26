@@ -140,6 +140,9 @@ struct MainTabView: View {
             triggerRefreshIfNeeded(force: true)
             resetGeoRestrictionState(forceNetworkLookup: true)
         }
+        .onReceive(NotificationCenter.default.publisher(for: .showOnboardingAgain)) { _ in
+            showOnboarding = true
+        }
     }
 
     @ToolbarContentBuilder
