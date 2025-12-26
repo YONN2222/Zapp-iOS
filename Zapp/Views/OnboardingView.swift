@@ -91,20 +91,12 @@ struct OnboardingWelcomeView: View {
         VStack(spacing: 24) {
             Spacer()
             
-            if let image = UIImage(named: "AppIcon") {
-                Image(uiImage: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 120, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 26.4, style: .continuous))
-                    .shadow(color: .black.opacity(0.1), radius: 10, y: 5)
-            } else {
-                Image(systemName: "play.circle.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 120, height: 120)
-                    .foregroundStyle(.tint)
-            }
+            Image("ZappIcon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 120, height: 120)
+                .clipShape(RoundedRectangle(cornerRadius: 26.4, style: .continuous))
+                .shadow(color: .black.opacity(0.1), radius: 10, y: 5)
             
             VStack(spacing: 12) {
                 Text(String(localized: "onboarding_welcome_title"))
