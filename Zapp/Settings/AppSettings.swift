@@ -16,6 +16,7 @@ final class AppSettings: ObservableObject {
     private let detailLandscapeKey = "detailLandscape"
     private let colorSchemePreferenceKey = "colorSchemePreference"
     private let streamHostKey = "streamHost"
+    private let hasCompletedOnboardingKey = "hasCompletedOnboarding"
     
     @Published var streamQualityWifi: MediathekShow.Quality {
         didSet { defaults.set(streamQualityWifi.rawValue, forKey: streamQualityWifiKey) }
@@ -44,6 +45,9 @@ final class AppSettings: ObservableObject {
         didSet { defaults.set(streamHost, forKey: streamHostKey) }
     }
 
+    @Published var hasCompletedOnboarding: Bool {
+        didSet { defaults.set(hasCompletedOnboarding, forKey: hasCompletedOnboardingKey) }
+    }
     
     private init() {
         self.initialSystemInterfaceStyle = UIScreen.main.traitCollection.userInterfaceStyle
@@ -53,6 +57,7 @@ final class AppSettings: ObservableObject {
         self.detailLandscape = defaults.bool(forKey: detailLandscapeKey)
         self.colorSchemePreference = ColorSchemePreference(rawValue: defaults.string(forKey: colorSchemePreferenceKey) ?? ColorSchemePreference.light.rawValue) ?? .light
         self.streamHost = defaults.string(forKey: streamHostKey) ?? ""
+        self.hasCompletedOnboarding = defaults.bool(forKey: hasCompletedOnboardingKey)
         applyColorSchemePreference()
     }
     

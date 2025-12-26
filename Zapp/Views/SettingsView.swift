@@ -223,6 +223,18 @@ struct SettingsView: View {
         Section(String(localized: "settings_about")) {
             SettingsInfoRow(title: String(localized: "settings_version"), value: appVersionValue)
             SettingsInfoRow(title: String(localized: "settings_build"), value: appBuildValue)
+            
+            Button(action: {
+                settings.hasCompletedOnboarding = false
+            }) {
+                HStack {
+                    Text(String(localized: "settings_show_onboarding"))
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(.accentColor)
+                }
+            }
         }
     }
 

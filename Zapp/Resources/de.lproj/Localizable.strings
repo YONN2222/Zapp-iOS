@@ -230,3 +230,40 @@
 "geo_restriction_message_generic" = "Die App ist hauptsächlich für die Nutzung innerhalb Deutschlands konzipiert. Im Ausland können Streams blockiert sein oder fehlschlagen.";
 "geo_restriction_message_region" = "Dein Gerät befindet sich in %@, daher funktionieren manche Livestreams und Mediathek-Inhalte eventuell nicht wie vorgesehen.";
 "geo_restriction_cta" = "Trotzdem fortfahren";
+
+// Onboarding
+"onboarding_welcome_title" = "Zapp";
+"onboarding_welcome_subtitle" = "Live Sender und Mediatheken streamen";
+"onboarding_continue" = "Weiter";
+"onboarding_get_started" = "Los geht's";
+
+"onboarding_features_title" = "Features";
+"onboarding_features_subtitle" = "Alles, was du brauchst";
+
+"onboarding_feature_live_title" = "Live Streams";
+"onboarding_feature_live_description" = "Schaue deine Lieblingssender live";
+
+"onboarding_feature_mediathek_title" = "Mediathek Inhalte";
+"onboarding_feature_mediathek_description" = "Zugriff auf tausende Sendungen";
+
+"onboarding_feature_continue_title" = "Weiterschauen";
+"onboarding_feature_continue_description" = "Setze fort, wo du aufgehört hast";
+
+"onboarding_feature_bookmarks_title" = "Lesezeichen";
+"onboarding_feature_bookmarks_description" = "Speichere deine Favoriten";
+
+"onboarding_feature_opensource_title" = "Open Source";
+"onboarding_feature_opensource_description" = "Transparent und kostenlos";
+
+"onboarding_geo_title" = "Verfügbarkeit in Deutschland";
+"onboarding_geo_message_1" = "Diese App ist primär für die Nutzung in Deutschland konzipiert.";
+"onboarding_geo_message_2" = "Im Ausland können Streams blockiert sein oder nur eingeschränkt funktionieren.";
+
+"onboarding_disclaimer_title" = "Wichtiger Hinweis";
+"onboarding_disclaimer_message_1" = "Diese App steht in keiner Verbindung zu den Sendern oder Mediatheken.";
+"onboarding_disclaimer_message_2" = "Es werden ausschließlich die offiziellen Streams der öffentlich-rechtlichen Sender angezeigt.";
+
+"onboarding_finish_title" = "Viel Spaß!";
+"onboarding_finish_subtitle" = "Entdecke jetzt Live-TV und Mediatheken auf deinem iPhone";
+
+"settings_show_onboarding" = "Onboarding erneut anzeigen";
