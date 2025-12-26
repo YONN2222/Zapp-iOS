@@ -141,8 +141,14 @@ final class MediathekAPI {
     private let baseURL = URL(string: "https://mediathekviewweb.de/api/")!
     private let session: URLSession
     
-    init(session: URLSession = .shared) {
-        self.session = session
+    private init() {
+        let config = URLSessionConfiguration.default
+        config.urlCache = nil
+        config.requestCachePolicy = .reloadIgnoringLocalCacheData
+        config.timeoutIntervalForRequest = 30
+        config.timeoutIntervalForResource = 60
+        config.waitsForConnectivity = true
+        self.session = URLSession(configuration: config)
     }
     
     func search(request: MediathekQueryRequest) async throws -> MediathekAnswer {
@@ -150,17 +156,50 @@ final class MediathekAPI {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("text/plain", forHTTPHeaderField: "Content-Type")
+        urlRequest.cachePolicy = .reloadIgnoringLocalCacheData
         
         let encoder = JSONEncoder()
         urlRequest.httpBody = try encoder.encode(request)
         
-        let (data, response) = try await session.data(for: urlRequest)
-        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
-            let status = (response as? HTTPURLResponse)?.statusCode
-            throw MediathekAPIError.requestFailed(statusCode: status)
-        }
+        #if DEBUG
+        print("🔍 MediathekAPI: Searching with query: \(request.queries.first?.query ?? "none")")
+        print("🔍 MediathekAPI: Cache policy: \(urlRequest.cachePolicy.rawValue)")
+        #endif
         
-        let decoder = JSONDecoder()
-        return try decoder.decode(MediathekAnswer.self, from: data)
+        do {
+            let (data, response) = try await session.data(for: urlRequest)
+            
+            #if DEBUG
+            print("📡 MediathekAPI: Response received, status: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+            #endif
+            
+            guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
+                let status = (response as? HTTPURLResponse)?.statusCode
+                #if DEBUG
+                print("❌ MediathekAPI: HTTP error - status code: \(status ?? -1)")
+                #endif
+                throw MediathekAPIError.requestFailed(statusCode: status)
+            }
+            
+            let decoder = JSONDecoder()
+            let answer = try decoder.decode(MediathekAnswer.self, from: data)
+            
+            #if DEBUG
+            print("✅ MediathekAPI: Received \(answer.result.results.count) results (total: \(answer.result.queryInfo.totalResults))")
+            #endif
+            
+            return answer
+        } catch let decodingError as DecodingError {
+            #if DEBUG
+            print("❌ MediathekAPI: Decoding error: \(decodingError)")
+            #endif
+            throw decodingError
+        } catch {
+            #if DEBUG
+            print("❌ MediathekAPI: Network error: \(error.localizedDescription)")
+            print("❌ MediathekAPI: Error details: \(error)")
+            #endif
+            throw error
+        }
     }
 }

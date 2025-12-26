@@ -157,7 +157,7 @@ final class PersistenceManager {
     
     func startDownload(show: MediathekShow, quality: MediathekShow.Quality) {
         var downloads = loadDownloads()
-        let expectedBytes = show.size > 0 ? Int64(show.size) : nil
+        let expectedBytes = (show.size ?? 0) > 0 ? Int64(show.size!) : nil
         
         if let index = downloads.firstIndex(where: { $0.apiId == show.id }) {
             downloads[index].downloadStatus = .queued
