@@ -27,10 +27,12 @@ struct MainTabView: View {
     @EnvironmentObject var channelRepo: ChannelRepository
     @EnvironmentObject var mediathekRepo: MediathekRepository
     @EnvironmentObject var networkMonitor: NetworkMonitor
+    @EnvironmentObject var settings: AppSettings
     @Environment(\.scenePhase) private var scenePhase
     @State private var selectedTab: MainTab = .live
     @State private var showSettings = false
     @State private var showLaunchScreen = true
+    @State private var showOnboarding = false
     @State private var lastSuccessfulSync: Date?
     @State private var forcedSplashOnForeground = false
     @State private var showGeoRestrictionWarning = false
@@ -76,6 +78,12 @@ struct MainTabView: View {
         }
         .sheet(isPresented: $showSettings) {
             SettingsView()
+        }
+        .fullScreenCover(isPresented: $showOnboarding) {
+            OnboardingView(isPresented: $showOnboarding)
+                .onDisappear {
+                    settings.hasCompletedOnboarding = true
+                }
         }
         .fullScreenCover(isPresented: $showGeoRestrictionWarning) {
             GeoRestrictionInfoView(regionDescription: detectedRegionName) {
@@ -127,9 +135,13 @@ struct MainTabView: View {
         }
         .onAppear {
             PlayerPresentationManager.shared.register(channelRepository: channelRepo)
+            showOnboarding = !settings.hasCompletedOnboarding
             showLaunchScreen = true
             triggerRefreshIfNeeded(force: true)
             resetGeoRestrictionState(forceNetworkLookup: true)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showOnboardingAgain)) { _ in
+            showOnboarding = true
         }
     }
 

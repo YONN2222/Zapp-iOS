@@ -227,6 +227,43 @@
 
 // Geo Restriction
 "geo_restriction_title" = "Limited availability outside Germany";
-"geo_restriction_message_generic" = "This app is primarily build for use within Germany. Streams may fail or stay blocked when you're abroad.";
+"geo_restriction_message_generic" = "This app is designed for use within Germany. When used abroad, streams may be blocked or fail.";
 "geo_restriction_message_region" = "Your device is located in %@, so some live streams and Mediathek videos may not work as expected.";
 "geo_restriction_cta" = "Continue anyway";
+
+// Onboarding
+"onboarding_welcome_title" = "Zapp";
+"onboarding_welcome_subtitle" = "Stream live TV and media libraries";
+"onboarding_continue" = "Continue";
+"onboarding_get_started" = "Get Started";
+
+"onboarding_features_title" = "Features";
+"onboarding_features_subtitle" = "Everything you need";
+
+"onboarding_feature_live_title" = "Live Streams";
+"onboarding_feature_live_description" = "Watch your favorite channels live";
+
+"onboarding_feature_mediathek_title" = "Media Libraries";
+"onboarding_feature_mediathek_description" = "Access thousands of shows";
+
+"onboarding_feature_continue_title" = "Continue Watching";
+"onboarding_feature_continue_description" = "Pick up where you left off";
+
+"onboarding_feature_bookmarks_title" = "Bookmarks";
+"onboarding_feature_bookmarks_description" = "Save your favorites";
+
+"onboarding_feature_opensource_title" = "Open Source";
+"onboarding_feature_opensource_description" = "Transparent and free";
+
+"onboarding_geo_title" = "Availability in Germany";
+"onboarding_geo_message_1" = "This app is designed for use in Germany.";
+"onboarding_geo_message_2" = "Outside Germany, streams may be blocked.";
+
+"onboarding_disclaimer_title" = "Important Notice";
+"onboarding_disclaimer_message_1" = "This app is not affiliated with any broadcasters or media libraries.";
+"onboarding_disclaimer_message_2" = "Only official streams from public broadcasters are displayed.";
+
+"onboarding_finish_title" = "Enjoy!";
+"onboarding_finish_subtitle" = "Discover Live TV and media libraries";
+
+"settings_show_onboarding" = "Show onboarding again";
