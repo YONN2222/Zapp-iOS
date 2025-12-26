@@ -226,7 +226,10 @@ struct SettingsView: View {
             
             Button(action: {
                 settings.hasCompletedOnboarding = false
-                NotificationCenter.default.post(name: .showOnboardingAgain, object: nil)
+                dismiss()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    NotificationCenter.default.post(name: .showOnboardingAgain, object: nil)
+                }
             }) {
                 HStack {
                     Text(String(localized: "settings_show_onboarding"))
