@@ -7,7 +7,7 @@ struct MediathekShow: Identifiable, Codable {
     let description: String?
     let channel: String
     let timestamp: Int
-    let size: Int
+    let size: Int?
     let duration: Int?
     let filmlisteTimestamp: Int
     let url_website: String?
@@ -38,7 +38,7 @@ struct MediathekShow: Identifiable, Codable {
         description: String?,
         channel: String,
         timestamp: Int,
-        size: Int,
+        size: Int?,
         duration: Int?,
         filmlisteTimestamp: Int,
         url_website: String?,
@@ -69,7 +69,14 @@ struct MediathekShow: Identifiable, Codable {
         description = try container.decodeIfPresent(String.self, forKey: .description)
         channel = try container.decode(String.self, forKey: .channel)
         timestamp = try container.decode(Int.self, forKey: .timestamp)
-        size = try container.decode(Int.self, forKey: .size)
+        
+        if let numericSize = try? container.decodeIfPresent(Int.self, forKey: .size) {
+            size = numericSize
+        } else if let stringSize = try? container.decodeIfPresent(String.self, forKey: .size) {
+            size = Int(stringSize)
+        } else {
+            size = nil
+        }
 
         if let numericDuration = try? container.decodeIfPresent(Int.self, forKey: .duration) {
             duration = numericDuration
@@ -94,7 +101,7 @@ struct MediathekShow: Identifiable, Codable {
         try container.encodeIfPresent(description, forKey: .description)
         try container.encode(channel, forKey: .channel)
         try container.encode(timestamp, forKey: .timestamp)
-        try container.encode(size, forKey: .size)
+        try container.encodeIfPresent(size, forKey: .size)
         try container.encodeIfPresent(duration, forKey: .duration)
         try container.encode(filmlisteTimestamp, forKey: .filmlisteTimestamp)
         try container.encodeIfPresent(url_website, forKey: .url_website)
@@ -214,8 +221,8 @@ extension PersistedMediathekShow {
         if let expectedDownloadBytes, expectedDownloadBytes > 0 {
             return expectedDownloadBytes
         }
-        if show.size > 0 {
-            return Int64(show.size)
+        if let size = show.size, size > 0 {
+            return Int64(size)
         }
         return nil
     }
