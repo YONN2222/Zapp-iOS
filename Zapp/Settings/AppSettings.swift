@@ -55,7 +55,7 @@ final class AppSettings: ObservableObject {
         self.streamQualityCellular = MediathekShow.Quality(rawValue: defaults.string(forKey: streamQualityCellularKey) ?? "Medium") ?? .medium
         self.downloadOverWifiOnly = defaults.bool(forKey: downloadOverWifiOnlyKey)
         self.detailLandscape = defaults.bool(forKey: detailLandscapeKey)
-        self.colorSchemePreference = ColorSchemePreference(rawValue: defaults.string(forKey: colorSchemePreferenceKey) ?? ColorSchemePreference.light.rawValue) ?? .light
+        self.colorSchemePreference = ColorSchemePreference(rawValue: defaults.string(forKey: colorSchemePreferenceKey) ?? ColorSchemePreference.system.rawValue) ?? .system
         self.streamHost = defaults.string(forKey: streamHostKey) ?? ""
         self.hasCompletedOnboarding = defaults.bool(forKey: hasCompletedOnboardingKey)
         applyColorSchemePreference()
