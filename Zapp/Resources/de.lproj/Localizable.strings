@@ -263,8 +263,8 @@
 "onboarding_geo_message_2" = "Im Ausland können Streams blockiert sein.";
 
 "onboarding_disclaimer_title" = "Wichtiger Hinweis";
-"onboarding_disclaimer_message_1" = "Diese App steht in keiner Verbindung zu den Sendern oder Mediatheken.";
-"onboarding_disclaimer_message_2" = "Es werden ausschließlich die offiziellen Streams der öffentlich-rechtlichen Sender angezeigt.";
+"onboarding_disclaimer_message_1" = "Diese App ist kein offizielles Angebot von ARD, ZDF oder anderen Rundfunkanstalten.";
+"onboarding_disclaimer_message_2" = "Es besteht keine Partnerschaft oder Unterstützung durch die genannten Sender. Alle Inhalte werden direkt von den jeweiligen Mediatheken der Sender geladen.";
 
 "onboarding_finish_title" = "Viel Spaß!";
 "onboarding_finish_subtitle" = "Entdecke jetzt Live-TV und Mediatheken";

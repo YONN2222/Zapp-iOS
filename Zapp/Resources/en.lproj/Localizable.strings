@@ -263,8 +263,8 @@
 "onboarding_geo_message_2" = "Outside Germany, streams may be blocked.";
 
 "onboarding_disclaimer_title" = "Important Notice";
-"onboarding_disclaimer_message_1" = "This app is not affiliated with any broadcasters or media libraries.";
-"onboarding_disclaimer_message_2" = "Only official streams from public broadcasters are displayed.";
+"onboarding_disclaimer_message_1" = "This app is not an official service of ARD, ZDF, or other broadcasters.";
+"onboarding_disclaimer_message_2" = "There is no partnership or endorsement by the mentioned broadcasters. All content is loaded directly from the respective broadcasters media libraries.";
 
 "onboarding_finish_title" = "Enjoy!";
 "onboarding_finish_subtitle" = "Discover Live TV and media libraries";
