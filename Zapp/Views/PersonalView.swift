@@ -163,6 +163,7 @@ struct PersistedShowCard: View {
     let allowContinueWatchingDeletion: Bool
     let allowBookmarkRemoval: Bool
     @EnvironmentObject var repo: MediathekRepository
+    @Environment(\.colorScheme) private var colorScheme
     @State private var showDownloadNotReadyAlert = false
     @State private var showDetailsSheet = false
     
@@ -279,7 +280,7 @@ struct PersistedShowCard: View {
             }
         }
         .padding()
-        .background(Color(.systemBackground))
+        .background(cardBackground)
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
         .onTapGesture {
@@ -453,6 +454,13 @@ struct PersistedShowCard: View {
         } else {
             return String(format: "%d:%02d", minutes, secs)
         }
+    }
+
+    private var cardBackground: Color {
+        if colorScheme == .dark {
+            return Color(uiColor: .secondarySystemBackground)
+        }
+        return Color(.systemBackground)
     }
 }
 

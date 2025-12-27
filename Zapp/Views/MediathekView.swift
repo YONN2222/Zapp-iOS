@@ -621,6 +621,7 @@ struct SearchSuggestionListView: View {
 struct MediathekShowCard: View {
     let show: MediathekShow
     @EnvironmentObject var repo: MediathekRepository
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -678,8 +679,15 @@ struct MediathekShowCard: View {
             }
         }
         .padding()
-        .background(Color(.systemBackground))
+        .background(cardBackground)
         .cornerRadius(12)
+    }
+
+    private var cardBackground: Color {
+        if colorScheme == .dark {
+            return Color(uiColor: .secondarySystemBackground)
+        }
+        return Color(.systemBackground)
     }
 }
 
