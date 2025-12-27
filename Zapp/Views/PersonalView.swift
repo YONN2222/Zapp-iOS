@@ -251,6 +251,7 @@ struct PersistedShowCard: View {
                     Image(systemName: "ellipsis.circle")
                         .font(.title3)
                         .frame(minWidth: 56, minHeight: 56, alignment: .top)
+                        .offset(x: 12)
                         .contentShape(Rectangle())
                 }
             }
