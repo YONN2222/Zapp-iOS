@@ -106,6 +106,24 @@ final class VideoPlayerManager: ObservableObject {
             name: AVAudioSession.interruptionNotification,
             object: nil
         )
+
+        NetworkMonitor.shared.$connectionType
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newType in
+                guard let self = self else { return }
+                let hasConnection = newType != .none
+                if hasConnection {
+                    if self.playbackErrorState != nil {
+                        self.retryLastLoad()
+                        return
+                    }
+
+                    if self.player != nil && !self.isActuallyPlaying {
+                        self.attemptResumePlayback()
+                    }
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func configureAudioSession() {
