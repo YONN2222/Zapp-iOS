@@ -18,6 +18,7 @@ final class AppSettings: ObservableObject {
     private let streamHostKey = "streamHost"
     private let hasCompletedOnboardingKey = "hasCompletedOnboarding"
     private let showProgressInBookmarksKey = "showProgressInBookmarks"
+    private let allowTapToSeekKey = "allowTapToSeek"
     
     @Published var streamQualityWifi: MediathekShow.Quality {
         didSet { defaults.set(streamQualityWifi.rawValue, forKey: streamQualityWifiKey) }
@@ -53,6 +54,10 @@ final class AppSettings: ObservableObject {
     @Published var showProgressInBookmarks: Bool {
         didSet { defaults.set(showProgressInBookmarks, forKey: showProgressInBookmarksKey) }
     }
+
+    @Published var allowTapToSeek: Bool {
+        didSet { defaults.set(allowTapToSeek, forKey: allowTapToSeekKey) }
+    }
     
     private init() {
         self.initialSystemInterfaceStyle = UIScreen.main.traitCollection.userInterfaceStyle
@@ -67,6 +72,11 @@ final class AppSettings: ObservableObject {
             self.showProgressInBookmarks = true
         } else {
             self.showProgressInBookmarks = defaults.bool(forKey: showProgressInBookmarksKey)
+        }
+        if defaults.object(forKey: allowTapToSeekKey) == nil {
+            self.allowTapToSeek = false
+        } else {
+            self.allowTapToSeek = defaults.bool(forKey: allowTapToSeekKey)
         }
         applyColorSchemePreference()
     }

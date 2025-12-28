@@ -270,3 +270,6 @@
 "onboarding_finish_subtitle" = "Discover Live TV and media libraries";
 
 "settings_show_onboarding" = "Show onboarding again";
+
+"settings_tap_to_seek_title" = "Tap to seek";
+"settings_tap_to_seek_description" = "Allow tapping the timeline to jump directly to a position.";

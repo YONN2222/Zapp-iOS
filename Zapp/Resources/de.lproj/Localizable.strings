@@ -270,3 +270,6 @@
 "onboarding_finish_subtitle" = "Entdecke jetzt Live-TV und Mediatheken";
 
 "settings_show_onboarding" = "Onboarding erneut anzeigen";
+
+"settings_tap_to_seek_title" = "Tippen zum Springen";
+"settings_tap_to_seek_description" = "Erlaube, durch Tippen auf die Zeitleiste direkt zu einer Stelle zu Springen.";

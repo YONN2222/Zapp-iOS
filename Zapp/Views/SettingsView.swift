@@ -23,6 +23,7 @@ struct SettingsView: View {
             Form {
                 appearanceSection
                 qualitySection
+                playbackSection
                 mediathekSection
                 liveTvSection
                 storageSection
@@ -111,6 +112,17 @@ struct SettingsView: View {
                 description: String(localized: "settings_stream_quality_cellular_description"),
                 selection: $settings.streamQualityCellular
             )
+        }
+    }
+
+    private var playbackSection: some View {
+        Section(String(localized: "settings_playback")) {
+            Toggle(isOn: $settings.allowTapToSeek) {
+                SettingsRowLabel(
+                    title: String(localized: "settings_tap_to_seek_title"),
+                    description: String(localized: "settings_tap_to_seek_description")
+                )
+            }
         }
     }
 

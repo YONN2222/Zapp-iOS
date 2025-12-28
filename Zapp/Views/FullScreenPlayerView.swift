@@ -532,6 +532,10 @@ class CustomPlayerViewController: UIViewController, UIGestureRecognizerDelegate,
         scrubber.addTarget(self, action: #selector(scrubberTouchDown), for: .touchDown)
         scrubber.addTarget(self, action: #selector(scrubberValueChanged), for: .valueChanged)
         scrubber.addTarget(self, action: #selector(scrubberTouchUp), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+        // allow tap-to-seek gesture; handler checks AppSettings.shared.allowTapToSeek
+        let tap = UITapGestureRecognizer(target: self, action: #selector(scrubberTapped(_:)))
+        tap.delegate = self
+        scrubber.addGestureRecognizer(tap)
 
         contentStack.addArrangedSubview(scrubStack)
 
@@ -755,6 +759,39 @@ class CustomPlayerViewController: UIViewController, UIGestureRecognizerDelegate,
         let liveEdge = max(range.lowerBound, range.upperBound - 2)
         manager.seek(to: liveEdge)
         if !manager.isPlaying {
+            manager.play()
+        }
+        startControlsTimer()
+    }
+
+    @objc private func scrubberTapped(_ gesture: UITapGestureRecognizer) {
+        guard AppSettings.shared.allowTapToSeek else { return }
+        guard let manager = playerManager, scrubber.isEnabled else { return }
+        let location = gesture.location(in: scrubber)
+        let width = scrubber.bounds.width
+        guard width > 0 else { return }
+        var ratio = Double(location.x / width)
+        ratio = max(0, min(1, ratio))
+
+        let newTime: TimeInterval
+        if isLiveStream, let range = liveSeekableRange {
+            let windowDuration = max(0, range.upperBound - range.lowerBound)
+            let positionInWindow = ratio * windowDuration
+            newTime = range.lowerBound + positionInWindow
+            scrubber.setValue(Float(positionInWindow), animated: true)
+        } else {
+            // VOD: scrubber.maximumValue holds duration
+            let duration = Double(scrubber.maximumValue)
+            newTime = ratio * duration
+            scrubber.setValue(Float(newTime), animated: true)
+        }
+
+        pendingSeekTarget = newTime
+        pendingSeekStart = Date()
+        lockedScrubberValue = scrubber.value
+
+        manager.seek(to: newTime)
+        if manager.isPlaying {
             manager.play()
         }
         startControlsTimer()
@@ -1300,7 +1337,13 @@ extension CustomPlayerViewController {
         guard gestureRecognizer is UITapGestureRecognizer else { return true }
         var view: UIView? = touch.view
         while let current = view {
-            if current is UIControl { return false }
+            // Erlaube Tap-Gesten explizit auf dem scrubber (Slider)
+            if let slider = current as? UISlider, slider === scrubber {
+                return true
+            }
+            if current is UIControl {
+                return false
+            }
             view = current.superview
         }
         return true
