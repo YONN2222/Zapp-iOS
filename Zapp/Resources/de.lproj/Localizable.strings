@@ -42,7 +42,9 @@
 "mediathek_initial_loading" = "Mediathek wird geladen…";
 "mediathek_offline_title" = "Offline-Modus";
 "mediathek_offline_message" = "Stelle eine Verbindung her, um das komplette Angebot zu durchsuchen. Heruntergeladene Sendungen findest du weiterhin unten.";
+"mediathek_offline_message_no_downloads" = "Stelle eine Verbindung her, um das komplette Angebot zu durchsuchen.";
 "mediathek_offline_results_note" = "Im Offline-Modus stehen nur heruntergeladene Sendungen zur Verfügung.";
+"mediathek_offline_results_note_disabled" = "Du bist offline. Verbinde dich, um neue Sendungen zu durchsuchen.";
 "mediathek_filter_open_accessibility" = "Filter öffnen";
 "mediathek_error_invalid_request" = "Ungültige Anfrage.";
 "mediathek_error_slow" = "Die Mediathek reagiert gerade langsam. Tippe auf \"%@\", um es erneut zu versuchen.";
@@ -59,6 +61,7 @@
 "mediathek_active_filters_title" = "Aktive Filter";
 "mediathek_search_prompt_online" = "Gesamte Mediathek durchsuchen";
 "mediathek_search_prompt_offline" = "Downloads durchsuchen";
+"mediathek_search_prompt_offline_disabled" = "Zum Durchsuchen verbinden";
 "mediathek_suggestion_section_single" = "Suche";
 "mediathek_suggestion_search_for" = "Nach \"%@\" suchen";
 "mediathek_suggestion_section_last" = "Letzte Suche";

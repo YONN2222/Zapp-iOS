@@ -68,31 +68,39 @@ struct MediathekView: View {
                 .navigationTitle(Text("tab_mediathek"))
                 .toolbar { filterToolbar }
         } else {
-            content
-                .navigationTitle(Text("tab_mediathek"))
-                .toolbar { filterToolbar }
-                .searchable(
-                    text: searchBinding,
-                    placement: .navigationBarDrawer(displayMode: .always),
-                    prompt: searchPrompt
-                ) {
-                    if !isOfflineModeActive {
-                        SearchSuggestionListView(
-                            searchText: viewModel.searchText,
-                            history: viewModel.searchHistory,
-                            onSuggestionTapped: viewModel.selectHistoryEntry,
-                            onSubmit: viewModel.submitSearch,
-                            onDeleteHistoryEntry: viewModel.deleteHistoryEntry
-                        )
-                    }
+            Group {
+                if !isOfflineModeActive || downloadsFeatureEnabled {
+                    content
+                        .navigationTitle(Text("tab_mediathek"))
+                        .toolbar { filterToolbar }
+                        .searchable(
+                            text: searchBinding,
+                            placement: .navigationBarDrawer(displayMode: .always),
+                            prompt: searchPrompt
+                        ) {
+                            if !isOfflineModeActive {
+                                SearchSuggestionListView(
+                                    searchText: viewModel.searchText,
+                                    history: viewModel.searchHistory,
+                                    onSuggestionTapped: viewModel.selectHistoryEntry,
+                                    onSubmit: viewModel.submitSearch,
+                                    onDeleteHistoryEntry: viewModel.deleteHistoryEntry
+                                )
+                            }
+                        }
+                        .onSubmit(of: .search) {
+                            guard networkMonitor.hasConnection else { return }
+                            if hasConnectionTimedOut {
+                                resetConnectionTimeoutState()
+                            }
+                            viewModel.submitSearch()
+                        }
+                } else {
+                    content
+                        .navigationTitle(Text("tab_mediathek"))
+                        .toolbar { filterToolbar }
                 }
-                .onSubmit(of: .search) {
-                    guard networkMonitor.hasConnection else { return }
-                    if hasConnectionTimedOut {
-                        resetConnectionTimeoutState()
-                    }
-                    viewModel.submitSearch()
-                }
+            }
         }
     }
 
@@ -228,16 +236,20 @@ struct MediathekView: View {
                 EmptyStateView(
                     icon: "wifi.slash",
                     title: String(localized: "mediathek_offline_title"),
-                    message: String(localized: "mediathek_offline_message"),
+                    message: downloadsFeatureEnabled ?
+                        String(localized: "mediathek_offline_message") :
+                        String(localized: "mediathek_offline_message_no_downloads"),
                     actionTitle: String(localized: "retry"),
                     action: retryConnectionAttempt
                 )
                 .frame(maxWidth: .infinity)
 
-                if !offlineFilteredDownloads.isEmpty {
-                    LazyVStack(spacing: 12) {
-                        ForEach(offlineFilteredDownloads) { persisted in
-                            PersistedShowCard(persisted: persisted, allowDownloadDeletion: true)
+                if downloadsFeatureEnabled {
+                    if !offlineFilteredDownloads.isEmpty {
+                        LazyVStack(spacing: 12) {
+                            ForEach(offlineFilteredDownloads) { persisted in
+                                PersistedShowCard(persisted: persisted, allowDownloadDeletion: true)
+                            }
                         }
                     }
                 }
@@ -250,6 +262,7 @@ struct MediathekView: View {
     }
 
     private var offlineFilteredDownloads: [PersistedMediathekShow] {
+        guard downloadsFeatureEnabled else { return [] }
         let trimmedQuery = offlineSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedQuery.isEmpty else { return repo.downloads }
         let normalizedQuery = Self.normalized(trimmedQuery)
@@ -267,11 +280,17 @@ struct MediathekView: View {
     }
 
     private var searchBinding: Binding<String> {
-        networkMonitor.hasConnection ? $viewModel.searchText : $offlineSearchText
+        if downloadsFeatureEnabled || networkMonitor.hasConnection {
+            return $viewModel.searchText
+        }
+        return $offlineSearchText
     }
 
     private var searchPrompt: Text {
-        Text(isOfflineModeActive ? "mediathek_search_prompt_offline" : "mediathek_search_prompt_online")
+        if isOfflineModeActive {
+            return Text(downloadsFeatureEnabled ? "mediathek_search_prompt_offline" : "mediathek_search_prompt_offline_disabled")
+        }
+        return Text("mediathek_search_prompt_online")
     }
 
     private var trimmedSearchInput: String {
@@ -288,6 +307,10 @@ struct MediathekView: View {
 
     private var hasSearchContext: Bool {
         !committedQueryText.isEmpty || viewModel.hasActiveFilters
+    }
+
+    private var downloadsFeatureEnabled: Bool {
+        !FeatureFlags.disableDownloads
     }
 
     private var shouldShowInlineSuggestions: Bool {
@@ -325,6 +348,7 @@ struct MediathekView: View {
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .submitLabel(.search)
+                        .disabled(isOfflineModeActive && !downloadsFeatureEnabled)
                         .onSubmit {
                             guard networkMonitor.hasConnection else { return }
                             if hasConnectionTimedOut {
@@ -356,7 +380,7 @@ struct MediathekView: View {
             }
 
             if isOfflineModeActive {
-                Text("mediathek_offline_results_note")
+                Text(downloadsFeatureEnabled ? "mediathek_offline_results_note" : "mediathek_offline_results_note_disabled")
                     .font(.caption)
                     .foregroundColor(.secondary)
             } else if shouldShowInlineSuggestions {

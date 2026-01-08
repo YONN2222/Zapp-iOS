@@ -42,7 +42,9 @@
 "mediathek_initial_loading" = "Loading the media library…";
 "mediathek_offline_title" = "Offline Mode";
 "mediathek_offline_message" = "Reconnect to search the full catalog. You can still access downloaded shows below.";
+"mediathek_offline_message_no_downloads" = "Reconnect to search the full catalog.";
 "mediathek_offline_results_note" = "Only downloaded shows are available while you're offline.";
+"mediathek_offline_results_note_disabled" = "You're offline. Reconnect to browse new shows.";
 "mediathek_filter_open_accessibility" = "Open filters";
 "mediathek_error_invalid_request" = "Invalid search request.";
 "mediathek_error_slow" = "The media library is responding slowly. Tap \"%@\" to try again.";
@@ -59,6 +61,7 @@
 "mediathek_active_filters_title" = "Active Filters";
 "mediathek_search_prompt_online" = "Search the full catalog";
 "mediathek_search_prompt_offline" = "Search downloaded shows";
+"mediathek_search_prompt_offline_disabled" = "Reconnect to search";
 "mediathek_suggestion_section_single" = "Search";
 "mediathek_suggestion_search_for" = "Search for \"%@\"";
 "mediathek_suggestion_section_last" = "Last search";
