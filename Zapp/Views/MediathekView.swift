@@ -122,76 +122,98 @@ struct MediathekView: View {
     }
 
     private func onlineContent(includeInlineSearch: Bool) -> some View {
-        ZStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    if includeInlineSearch {
-                        inlineSearchBar
+        let scrollView = ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                if includeInlineSearch {
+                    inlineSearchBar
+                }
+
+                if viewModel.hasActiveFilters {
+                    ActiveFiltersView(viewModel: viewModel)
+                }
+
+                if let info = viewModel.queryInfo {
+                    QueryInfoSummaryView(info: info)
+                }
+
+                LazyVStack(spacing: 12) {
+                    ForEach(viewModel.shows) { show in
+                        showCard(for: show)
+                            .onAppear { viewModel.loadMoreIfNeeded(currentItem: show) }
                     }
 
-                    if viewModel.hasActiveFilters {
-                        ActiveFiltersView(viewModel: viewModel)
-                    }
-
-                    if let info = viewModel.queryInfo {
-                        QueryInfoSummaryView(info: info)
-                    }
-
-                    LazyVStack(spacing: 12) {
-                        ForEach(viewModel.shows) { show in
-                            showCard(for: show)
-                                .onAppear { viewModel.loadMoreIfNeeded(currentItem: show) }
-                        }
-
-                        if viewModel.isLoadingMore {
-                            ProgressView()
-                                .padding(.vertical, 12)
-                                .frame(maxWidth: .infinity)
-                        }
-                    }
-
-                    if viewModel.errorMessage != nil {
-                        EmptyStateView(
-                            icon: "magnifyingglass",
-                            title: String(localized: "mediathek_no_results_title"),
-                            message: String(localized: "mediathek_no_results_message"),
-                            actionTitle: String(localized: "retry")
-                        ) {
-                            Task { await viewModel.refresh() }
-                        }
-                        .frame(maxWidth: .infinity)
-                    } else if viewModel.shows.isEmpty && !viewModel.isInitialLoading {
-                        if !hasCommittedQuery {
-                            EmptyStateView(
-                                icon: "magnifyingglass",
-                                title: String(localized: "mediathek_prompt_search_title"),
-                                message: String(localized: "mediathek_prompt_search_message")
-                            )
+                    if viewModel.isLoadingMore {
+                        ProgressView()
+                            .padding(.vertical, 12)
                             .frame(maxWidth: .infinity)
-                        } else {
-                            EmptyStateView(
-                                icon: "exclamationmark.magnifyingglass",
-                                title: String(localized: "mediathek_no_results_title"),
-                                message: String(localized: "mediathek_no_results_adjust")
-                            )
-                            .frame(maxWidth: .infinity)
-                        }
                     }
                 }
-                .padding(.horizontal)
-                .padding(.top, includeInlineSearch ? 8 : 16)
-                .padding(.bottom, 32)
-                .frame(maxWidth: includeInlineSearch ? 900 : .infinity)
-                .frame(maxWidth: .infinity)
+
+                if viewModel.errorMessage != nil {
+                    EmptyStateView(
+                        icon: "magnifyingglass",
+                        title: String(localized: "mediathek_no_results_title"),
+                        message: String(localized: "mediathek_no_results_message"),
+                        actionTitle: String(localized: "retry")
+                    ) {
+                        Task { await viewModel.refresh() }
+                    }
+                    .frame(maxWidth: .infinity)
+                } else if viewModel.shows.isEmpty && !viewModel.isInitialLoading {
+                    if !hasCommittedQuery {
+                        EmptyStateView(
+                            icon: "magnifyingglass",
+                            title: String(localized: "mediathek_prompt_search_title"),
+                            message: String(localized: "mediathek_prompt_search_message")
+                        )
+                        .frame(maxWidth: .infinity)
+                    } else {
+                        EmptyStateView(
+                            icon: "exclamationmark.magnifyingglass",
+                            title: String(localized: "mediathek_no_results_title"),
+                            message: String(localized: "mediathek_no_results_adjust")
+                        )
+                        .frame(maxWidth: .infinity)
+                    }
+                }
             }
-            .refreshable {
-                await viewModel.refresh()
+            .padding(.horizontal)
+            .padding(.top, includeInlineSearch ? 8 : 16)
+            .padding(.bottom, 32)
+            .frame(maxWidth: includeInlineSearch ? 900 : .infinity)
+            .frame(maxWidth: .infinity)
+        }
+
+        return ZStack {
+            Group {
+                if hasSearchContext {
+                    scrollView.refreshable {
+                        await viewModel.refresh()
+                    }
+                } else {
+                    scrollView
+                }
             }
 
-            if viewModel.isInitialLoading && viewModel.shows.isEmpty {
-                ProgressView(String(localized: "mediathek_initial_loading"))
-                    .padding()
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+            if hasSearchContext {
+                VStack(spacing: 0) {
+                    if viewModel.isInitialLoading {
+                        HStack(spacing: 12) {
+                            ProgressView()
+                                .scaleEffect(0.9, anchor: .center)
+                            Text("mediathek_initial_loading")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .padding(.vertical, 8)
+                        .background(Color(.systemGray6).opacity(0.6))
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                    }
+                    Spacer()
+                }
+                .ignoresSafeArea(edges: .top)
             }
         }
     }
@@ -262,6 +284,10 @@ struct MediathekView: View {
 
     private var hasCommittedQuery: Bool {
         !committedQueryText.isEmpty
+    }
+
+    private var hasSearchContext: Bool {
+        !committedQueryText.isEmpty || viewModel.hasActiveFilters
     }
 
     private var shouldShowInlineSuggestions: Bool {

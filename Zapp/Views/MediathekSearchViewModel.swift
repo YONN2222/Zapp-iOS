@@ -98,7 +98,7 @@ final class MediathekSearchViewModel: ObservableObject {
         let sanitizedMin = minDurationMinutes.flatMap { $0 >= 0 ? $0 : nil }
         let sanitizedMax = maxDurationMinutes.flatMap { $0 >= 0 ? $0 : nil }
 
-    let finalMin = sanitizedMin
+        let finalMin = sanitizedMin
         var finalMax = sanitizedMax
 
         if let min = finalMin, let max = finalMax, min > max {
@@ -125,6 +125,10 @@ final class MediathekSearchViewModel: ObservableObject {
     }
 
     func resetFilters() {
+        activeTask?.cancel()
+        activeTask = nil
+        nextOffset = 0
+        hasReachedEnd = false
         selectedChannels = []
         minDurationMinutes = nil
         maxDurationMinutes = nil
@@ -161,9 +165,15 @@ final class MediathekSearchViewModel: ObservableObject {
 
     func refresh() async {
         activeTask?.cancel()
+        activeTask = nil
         hasReachedEnd = false
         nextOffset = 0
-        guard !currentParameters.query.isEmpty else {
+        isInitialLoading = true
+        guard hasSearchContext(for: currentParameters) else {
+            shows = []
+            queryInfo = nil
+            errorMessage = nil
+            isInitialLoading = false
             return
         }
         await loadPage(reset: true)
@@ -196,7 +206,7 @@ final class MediathekSearchViewModel: ObservableObject {
         queryInfo = nil
         errorMessage = nil
         activeTask?.cancel()
-        guard !parameters.query.isEmpty else {
+        guard hasSearchContext(for: parameters) else {
             return
         }
         activeTask = Task { [weak self] in
@@ -281,5 +291,12 @@ final class MediathekSearchViewModel: ObservableObject {
             return nil
         }
         return error.localizedDescription
+    }
+
+    private func hasSearchContext(for parameters: SearchParameters) -> Bool {
+        return !parameters.query.isEmpty ||
+        !parameters.channels.isEmpty ||
+        parameters.minDurationMinutes != nil ||
+        parameters.maxDurationMinutes != nil
     }
 }
