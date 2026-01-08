@@ -71,12 +71,12 @@ final class PersistenceManager {
 
     func deleteAllBookmarks() {
         saveBookmarks([])
-        NotificationCenter.default.post(name: .bookmarksUpdated, object: nil)
     }
     
     private func saveBookmarks(_ bookmarks: [PersistedMediathekShow]) {
         if let data = try? JSONEncoder().encode(bookmarks) {
             userDefaults.set(data, forKey: bookmarksKey)
+            notifyBookmarksChanged()
         }
     }
     
@@ -461,6 +461,10 @@ final class PersistenceManager {
 
     private func notifyContinueWatchingChanged() {
         NotificationCenter.default.post(name: .continueWatchingUpdated, object: nil)
+    }
+
+    private func notifyBookmarksChanged() {
+        NotificationCenter.default.post(name: .bookmarksUpdated, object: nil)
     }
 
     private func persistThumbnail(from sources: [URL], apiId: String) async -> String? {

@@ -8,6 +8,7 @@ final class MediathekRepository: ObservableObject {
     @Published private(set) var continueWatching: [PersistedMediathekShow] = []
     
     private let persistence = PersistenceManager.shared
+    private var bookmarksObserver: NSObjectProtocol?
     private var downloadsObserver: NSObjectProtocol?
     private var continueWatchingObserver: NSObjectProtocol?
     
@@ -17,6 +18,18 @@ final class MediathekRepository: ObservableObject {
         Task(priority: .utility) {
             await persistence.backfillDownloadThumbnailsIfNeeded()
         }
+
+        bookmarksObserver = NotificationCenter.default.addObserver(
+            forName: .bookmarksUpdated,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.bookmarks = self.persistence.loadBookmarks()
+            }
+        }
+
         downloadsObserver = NotificationCenter.default.addObserver(
             forName: .downloadsUpdated,
             object: nil,
@@ -46,6 +59,9 @@ final class MediathekRepository: ObservableObject {
     }
 
     deinit {
+        if let bookmarksObserver {
+            NotificationCenter.default.removeObserver(bookmarksObserver)
+        }
         if let downloadsObserver {
             NotificationCenter.default.removeObserver(downloadsObserver)
         }
