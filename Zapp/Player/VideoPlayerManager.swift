@@ -131,7 +131,6 @@ final class VideoPlayerManager: ObservableObject {
             guard let self = self else { return }
             let audioSession = AVAudioSession.sharedInstance()
             let baseOptions: AVAudioSession.CategoryOptions = [.allowAirPlay, .allowBluetoothA2DP]
-            let fallbackOptions = baseOptions.union([.mixWithOthers])
 
             do {
                 if #available(iOS 13.0, *) {
@@ -147,11 +146,11 @@ final class VideoPlayerManager: ObservableObject {
                         try audioSession.setCategory(
                             .playback,
                             mode: .moviePlayback,
-                            options: fallbackOptions
+                            options: baseOptions
                         )
                     }
                 } else {
-                    try audioSession.setCategory(.playback, mode: .moviePlayback, options: fallbackOptions)
+                    try audioSession.setCategory(.playback, mode: .moviePlayback, options: baseOptions)
                 }
             } catch {
                 self.playerLogger.error("Failed to set audio session category: \(String(describing: error))")
@@ -171,7 +170,20 @@ final class VideoPlayerManager: ObservableObject {
         let block = { [weak self] in
             guard let self = self else { return }
             do {
-                try AVAudioSession.sharedInstance().setActive(true)
+                let audioSession = AVAudioSession.sharedInstance()
+                let baseOptions: AVAudioSession.CategoryOptions = [.allowAirPlay, .allowBluetoothA2DP]
+                
+                if #available(iOS 13.0, *) {
+                    try? audioSession.setCategory(
+                        .playback,
+                        mode: .moviePlayback,
+                        policy: .longFormVideo,
+                        options: baseOptions
+                    )
+                } else {
+                    try? audioSession.setCategory(.playback, mode: .moviePlayback, options: baseOptions)
+                }
+                try AVAudioSession.sharedInstance().setActive(true, options: [])
                 self.audioSessionActive = true
                 UIApplication.shared.beginReceivingRemoteControlEvents()
             } catch {
@@ -357,7 +369,25 @@ final class VideoPlayerManager: ObservableObject {
     }
     
     func play() {
+        // Ensure audio session is active and properly configured to interrupt other audio
+        let audioSession = AVAudioSession.sharedInstance()
+        let options: AVAudioSession.CategoryOptions = [.allowAirPlay, .allowBluetoothA2DP]
+        
+        // Reconfigure category without .mixWithOthers to interrupt other audio
+        if #available(iOS 13.0, *) {
+            try? audioSession.setCategory(
+                .playback,
+                mode: .moviePlayback,
+                policy: .longFormVideo,
+                options: options
+            )
+        } else {
+            try? audioSession.setCategory(.playback, mode: .moviePlayback, options: options)
+        }
+        
+        // Activate audio session to pause other apps like Spotify
         activateAudioSessionIfNeeded()
+        
         player?.play()
         isPlaying = true
         updateNowPlayingInfo()
