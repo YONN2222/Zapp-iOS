@@ -135,7 +135,6 @@ private struct PlayerLoadingOverlay: View {
             .padding(.horizontal, 20)
         }
         .transition(.opacity)
-        // Block interaction while loading so underlying controls cannot be tapped
         .allowsHitTesting(true)
         .zIndex(2)
     }
@@ -372,7 +371,7 @@ class CustomPlayerViewController: UIViewController, UIGestureRecognizerDelegate,
             topBar.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 12),
             topBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
             topBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
-            topBar.heightAnchor.constraint(greaterThanOrEqualToConstant: 60)
+            topBar.heightAnchor.constraint(greaterThanOrEqualToConstant: 68)
         ])
 
         closeButton.tintColor = .white
@@ -394,23 +393,24 @@ class CustomPlayerViewController: UIViewController, UIGestureRecognizerDelegate,
 
         let textStack = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         textStack.axis = .vertical
-        textStack.spacing = 2
+        textStack.spacing = 3
         textStack.alignment = .leading
         textStack.translatesAutoresizingMaskIntoConstraints = false
         topBar.contentView.addSubview(textStack)
         NSLayoutConstraint.activate([
             textStack.centerYAnchor.constraint(equalTo: topBar.contentView.centerYAnchor),
-            textStack.leadingAnchor.constraint(equalTo: closeButton.trailingAnchor, constant: 12)
+            textStack.leadingAnchor.constraint(equalTo: closeButton.trailingAnchor, constant: 16)
         ])
         let textTrailingConstraint = textStack.trailingAnchor.constraint(equalTo: topBar.contentView.trailingAnchor, constant: -16)
         textTrailingConstraint.priority = .defaultLow
         textTrailingConstraint.isActive = true
 
-        titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         titleLabel.textColor = .white
-        subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        subtitleLabel.textColor = UIColor.white.withAlphaComponent(0.8)
-        subtitleLabel.numberOfLines = 1
+        titleLabel.numberOfLines = 1
+        subtitleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        subtitleLabel.textColor = UIColor.white.withAlphaComponent(0.85)
+        subtitleLabel.numberOfLines = 2
         configureLiveBadge()
         configureQualityButtonAppearance()
         qualityButton.addTarget(self, action: #selector(qualityButtonTapped), for: .touchUpInside)
