@@ -1,50 +1,77 @@
-# Zapp für iOS
+<div align="center">
+  <img src="ZappIcon.png" alt="Zapp" width="200" />
 
-![ZAPP](.github/images/featureGraphic.jpg)
+  <h1>Zapp für iOS</h1>
 
-### Zapp für iOS bringt das Android-Erlebnis auf iPhone und iPad. Dies ist ein Port der Android-App [Zapp](https://github.com/mediathekview/zapp/). Die erste Version ist fertig und bietet schnellen Zugriff auf viele öffentlich-rechtliche Sender und Mediatheken.
+  <p><strong>Das Android-Erlebnis von Zapp, jetzt für iPhone und iPad.</strong></p>
 
-## Über
+  <p>
+    <img src="https://img.shields.io/badge/Swift-F05138?style=for-the-badge&logo=swift&logoColor=white" alt="Swift" />
+    <img src="https://img.shields.io/badge/SwiftUI-0066CC?style=for-the-badge&logo=swift&logoColor=white" alt="SwiftUI" />
+    <img src="https://img.shields.io/badge/iOS%2018%2B-000000?style=for-the-badge&logo=apple&logoColor=white" alt="iOS 18+" />
+    <img src="https://img.shields.io/badge/GPLv3-blue?style=for-the-badge" alt="License" />
+  </p>
+</div>
 
-Zapp für iOS erlaubt es dir, Sender wie ARD, ZDF und viele weitere live zu schauen. Du kannst durch Mediatheken stöbern und Inhalte direkt streamen. Die App basiert auf der Android-Version, wurde aber für iOS angepasst.
+<br />
 
-Die App ist fertig für den ersten Release, wird aber weiterhin gepflegt und erweitert. Feedback ist willkommen.
+> Zapp für iOS ist ein freier, quelloffener Client für die öffentlich-rechtlichen Live-Sender und Mediatheken Deutschlands. Kein Account, kein Tracking, kein Schnickschnack.
 
-## Features
+## 1. Overview
 
-<ul>
-    <li>iOS Client für Zapp</li>
-    <li>Live TV von über 30 öffentlich-rechtlichen Sendern</li>
-    <li>Schneller Wechsel zwischen Sendern</li>
-    <li>Übersichtliche Programminfos für laufende Sendungen</li>
-    <li>Komfortable Suche in den Mediatheken</li>
-    <li>Stabile Wiedergabe im Hintergrund</li>
-    <li>Unterstützung für iPhone und iPad</li>
-    <li>
-      <s>Unteritel</s>: Derzeit nicht verfügbar, wird aber in zukünftigen Updates ergänzt.
-    </li>
+Zapp für iOS ist ein **Fork der Android-App [Zapp](https://github.com/mediathekview/zapp/)**. Er bringt schnellen Zugriff auf über 30 öffentlich-rechtliche Sender und deren Mediatheken direkt auf iPhone und iPad, ohne Account und ohne Werbung.
 
-</ul>
+> **Achtung:** Die App befindet sich noch in aktiver Entwicklung. Es kann zu Bugs und unerwartetem Verhalten kommen. Feedback und Bug-Reports sind sehr willkommen.
 
-**Hinweis:** Einige Sender können im Ausland blockiert sein.
+## 2. Features
 
-## Status
+- **Live TV**: über 30 öffentlich-rechtliche Sender live streamen
+- **Schneller Senderwechsel**: nahtlos zwischen Programmen springen
+- **Programminfos**: übersichtliche Infos zu laufenden Sendungen
+- **Mediatheken-Suche**: komfortabel in allen Mediatheken stöbern
+- **Stabile Hintergrundwiedergabe**: Ton läuft weiter, auch wenn die App im Hintergrund ist
+- **iPhone & iPad**: volle Unterstützung für beide Gerätetypen
+- **Untertitel**: derzeit nicht verfügbar, geplant für ein zukünftiges Update
 
-Die erste Version der App ist fertig, alle Grundfunktionen laufen stabil. Weitere Features und Optimierungen werden ergänzt.
+> **Hinweis:** Einige Sender können im Ausland geoblockt sein.
 
-## Build
+## 3. Installation
 
-So baust du die App selbst mit Xcode:
+**Aus den GitHub Releases**
 
-1. Xcode installieren (einmalig über App Store)
-2. Repo klonen und in den Ordner wechseln:
-```bash
-git clone https://github.com/YONN2222/Zapp-iOS.git
-cd Zapp-iOS
-```
-3. Projekt in Xcode öffnen
-```bash
-open Zapp.xcodeproj
-```
-4. Xcode Build starten und auf dem Gerät installieren
+Lade die aktuellste unsignierte IPA direkt von der Releases-Seite:
 
+> https://github.com/YONN2222/Zapp-iOS/releases
+
+Da die App unsigniert ist, kannst du sie nicht einfach installieren, sondern brauchst einen Sideloading-Dienst wie [SideStore](https://sidestore.io/), um die IPA auf dein iPhone oder iPad zu laden.
+
+## 4. Usage
+
+1. App öffnen
+2. Im Tab **Live** einen Sender auswählen und direkt loslegen
+3. Im Tab **Mediathek** nach Sendungen suchen und stöbern
+4. Wiedergabe läuft auch stabil im Hintergrund weiter
+
+## 5. Build It Yourself
+
+1. **Repository klonen**
+   ```bash
+   git clone https://github.com/YONN2222/Zapp-iOS.git
+   cd Zapp-iOS
+   ```
+
+2. **Projekt in Xcode öffnen**
+   ```bash
+   open Zapp.xcodeproj
+   ```
+
+3. **App bauen**
+   ```bash
+   xcodebuild -project Zapp.xcodeproj -scheme Zapp -configuration Release
+   ```
+
+---
+
+<div align="center">
+  <sub>Lizenziert unter <a href="LICENSE">GPLv3</a>.</sub>
+</div>
