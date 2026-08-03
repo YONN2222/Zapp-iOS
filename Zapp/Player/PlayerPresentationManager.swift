@@ -153,7 +153,7 @@ final class PlayerPresentationManager: NSObject, UIAdaptivePresentationControlle
         }
 
         let controller = OrientationHostingController(rootView: view)
-        controller.modalPresentationStyle = .fullScreen
+        controller.modalPresentationStyle = .overFullScreen
         hostingController = controller
         presenter.present(controller, animated: animated) { [weak controller] in
             controller?.presentationController?.delegate = self

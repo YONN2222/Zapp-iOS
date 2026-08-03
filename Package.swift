@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "Zapp-iOS",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v18)
     ],
@@ -16,8 +17,7 @@ let package = Package(
             path: "Zapp",
             resources: [
                 .process("Resources"),
-                .process("Assets.xcassets"),
-                .process("Zapp.icon")
+                .process("Assets.xcassets")
             ]
         )
     ]

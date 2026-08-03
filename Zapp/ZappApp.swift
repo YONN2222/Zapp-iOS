@@ -32,6 +32,7 @@ struct MainTabView: View {
     @State private var selectedTab: MainTab = .live
     @State private var showSettings = false
     @State private var showLaunchScreen = true
+    @State private var hasAppearedOnce = false
     @State private var showOnboarding = false
     @State private var lastSuccessfulSync: Date?
     @State private var forcedSplashOnForeground = false
@@ -112,7 +113,7 @@ struct MainTabView: View {
         }
         .onChange(of: scenePhase) { _, newPhase in
             switch newPhase {
-            case .inactive:
+            case .background:
                 let willNeedRefresh = needsRefresh()
                 forcedSplashOnForeground = willNeedRefresh
                 if willNeedRefresh {
@@ -126,14 +127,14 @@ struct MainTabView: View {
             }
         }
         .onChange(of: channelRepo.isSyncing) { _, isSyncing in
-            if isSyncing {
-                showLaunchScreen = true
-            } else {
+            if !isSyncing {
                 lastSuccessfulSync = Date()
                 hideLaunchScreenIfReady(immediate: false)
             }
         }
         .onAppear {
+            guard !hasAppearedOnce else { return }
+            hasAppearedOnce = true
             PlayerPresentationManager.shared.register(channelRepository: channelRepo)
             showOnboarding = !settings.hasCompletedOnboarding
             showLaunchScreen = true

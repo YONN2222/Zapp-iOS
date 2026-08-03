@@ -133,14 +133,41 @@ struct MediathekAnswer: Codable {
 
 final class MediathekAPI {
     static let shared = MediathekAPI()
-    
+
     private enum MediathekAPIError: Error {
         case requestFailed(statusCode: Int?)
     }
 
+    /// Short-lived cache so a brief network drop can still be served from the last successful response.
+    private actor ResponseCache {
+        private struct Entry {
+            let answer: MediathekAnswer
+            let fetchedAt: Date
+        }
+
+        private let ttl: TimeInterval
+        private var storage: [String: Entry] = [:]
+
+        init(ttl: TimeInterval) {
+            self.ttl = ttl
+        }
+
+        func answer(for key: String) -> MediathekAnswer? {
+            guard let entry = storage[key], Date().timeIntervalSince(entry.fetchedAt) <= ttl else {
+                return nil
+            }
+            return entry.answer
+        }
+
+        func store(_ answer: MediathekAnswer, for key: String) {
+            storage[key] = Entry(answer: answer, fetchedAt: Date())
+        }
+    }
+
     private let baseURL = URL(string: "https://mediathekviewweb.de/api/")!
     private let session: URLSession
-    
+    private let cache = ResponseCache(ttl: 10)
+
     private init() {
         let config = URLSessionConfiguration.default
         config.urlCache = nil
@@ -157,22 +184,24 @@ final class MediathekAPI {
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("text/plain", forHTTPHeaderField: "Content-Type")
         urlRequest.cachePolicy = .reloadIgnoringLocalCacheData
-        
+
         let encoder = JSONEncoder()
+        encoder.outputFormatting = .sortedKeys
         urlRequest.httpBody = try encoder.encode(request)
-        
+        let cacheKey = String(data: urlRequest.httpBody ?? Data(), encoding: .utf8) ?? UUID().uuidString
+
         #if DEBUG
         print("🔍 MediathekAPI: Searching with query: \(request.queries.first?.query ?? "none")")
         print("🔍 MediathekAPI: Cache policy: \(urlRequest.cachePolicy.rawValue)")
         #endif
-        
+
         do {
             let (data, response) = try await session.data(for: urlRequest)
-            
+
             #if DEBUG
             print("📡 MediathekAPI: Response received, status: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
             #endif
-            
+
             guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
                 let status = (response as? HTTPURLResponse)?.statusCode
                 #if DEBUG
@@ -180,14 +209,15 @@ final class MediathekAPI {
                 #endif
                 throw MediathekAPIError.requestFailed(statusCode: status)
             }
-            
+
             let decoder = JSONDecoder()
             let answer = try decoder.decode(MediathekAnswer.self, from: data)
-            
+
             #if DEBUG
             print("✅ MediathekAPI: Received \(answer.result.results.count) results (total: \(answer.result.queryInfo.totalResults))")
             #endif
-            
+
+            await cache.store(answer, for: cacheKey)
             return answer
         } catch let decodingError as DecodingError {
             #if DEBUG
@@ -195,6 +225,12 @@ final class MediathekAPI {
             #endif
             throw decodingError
         } catch {
+            if let cached = await cache.answer(for: cacheKey) {
+                #if DEBUG
+                print("♻️ MediathekAPI: Network error, serving cached response: \(error.localizedDescription)")
+                #endif
+                return cached
+            }
             #if DEBUG
             print("❌ MediathekAPI: Network error: \(error.localizedDescription)")
             print("❌ MediathekAPI: Error details: \(error)")

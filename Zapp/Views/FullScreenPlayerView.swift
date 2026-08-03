@@ -112,10 +112,13 @@ struct CustomPlayerViewRepresentable: UIViewControllerRepresentable {
 }
 
 private struct PlayerLoadingOverlay: View {
+    private let topBarClearance: CGFloat = 92
+
     var body: some View {
         ZStack {
             Color.black.opacity(0.88)
-                .ignoresSafeArea()
+                .ignoresSafeArea(edges: [.horizontal, .bottom])
+                .padding(.top, topBarClearance)
 
             VStack(spacing: 20) {
                 ProgressView()
